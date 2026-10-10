@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
+RUN apk add --no-cache icu-libs tzdata curl krb5-libs
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
+    ASPNETCORE_URLS=http://+:34000 \
+    TZ=Europe/Istanbul
+WORKDIR /app
+COPY publish/ .
+EXPOSE 34000
+ENTRYPOINT ["dotnet", "Nexora.Api.dll"]

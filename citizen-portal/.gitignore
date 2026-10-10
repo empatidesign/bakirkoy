@@ -1,0 +1,19 @@
+node_modules
+dist
+.env
+.env.local
+.env.development.local
+*.tsbuildinfo
+test-results/
+playwright-report/
+test-artifacts/
+
+# SQL dump (asla commit edilmez)
+nexora_dump_*.sql
+*.dump
+*_dump_*.sql
+# Capacitor yerel platformu: her makinede 'npx cap add android' ile uretilir
+/android
+/ios
+blob-report/
+playwright-results.json

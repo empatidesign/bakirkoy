@@ -1,0 +1,1326 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ── Tipografi ── */
+    --font-sans:    'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Plus Jakarta Sans', sans-serif;
+    --font-mono:    ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+
+    --text-scale: 1;
+    --text-xs:   calc(0.75rem   * var(--text-scale));  /* 12px */
+    --text-sm:   calc(0.875rem  * var(--text-scale));  /* 14px */
+    --text-base: calc(1rem      * var(--text-scale));  /* 16px */
+    --text-lg:   calc(1.125rem  * var(--text-scale));  /* 18px */
+    --text-xl:   calc(1.25rem   * var(--text-scale));  /* 20px */
+    --text-2xl:  calc(1.5rem    * var(--text-scale));  /* 24px */
+    --text-3xl:  calc(1.875rem  * var(--text-scale));  /* 30px */
+    --text-caption: calc(0.8125rem * var(--text-scale)); /* 13px */
+
+    /* ── Renkler ── */
+    --background: 0 0% 100%;
+    --foreground: 215 20% 28%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 30% 15%;
+
+    --surface-0: 0 0% 100%;
+    --surface-1: 210 25% 98%;
+    --surface-2: 212 20% 94%;
+
+    --primary: 206 100% 32%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 206 90% 96%;
+
+    --secondary: 210 20% 93%;
+    --secondary-foreground: 215 30% 15%;
+
+    --success: 91 53% 45%;
+    --success-foreground: 0 0% 100%;
+    --success-soft: 152 76% 96%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 215 28% 17%;
+    --warning-soft: 48 100% 96%;
+
+    --danger: 0 72% 51%;
+    --danger-foreground: 0 0% 100%;
+    --danger-soft: 0 86% 97%;
+
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+    --info-soft: 204 100% 97%;
+
+    --muted: 210 16% 93%;
+    --muted-foreground: 215 12% 50%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 214 80% 48%;
+
+    --foreground-default: 215 18% 30%;
+    --foreground-strong: 215 28% 17%;
+    --foreground-muted:  215 12% 40%;
+    --foreground-subtle: 215 10% 35%;
+
+    --radius-lg: 0.5rem;
+    --radius-md: 0.375rem;
+    --radius-sm: 0.25rem;
+
+    /* ── Şekil tokenları — tüm tasarım buradan beslenir ── */
+    /* field = input/button/select | card = kart/panel | panel = drawer/modal */
+    /* Kurumsal his için radius standardı: 8px */
+    --radius-field: 0.5rem; /* 8px  — input/button/select tek kaynak */
+    --radius-card:  0.5rem; /* 8px */
+    --radius-panel: 0.5rem; /* 8px */
+    --radius-pill:  9999px;
+
+    --control-h:    2.75rem;   /* 44px — Mobil öncelikli standart */
+    --control-h-sm: 2.5rem;    /* 40px — Kompakt */
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+
+    /* ── Yükseklik (elevation) tokenları ── */
+    --shadow-card:  0 1px 2px 0 rgb(0 0 0 / 0.04);
+    --shadow-pop:   0 8px 24px -6px rgb(0 0 0 / 0.12), 0 2px 6px -2px rgb(0 0 0 / 0.08);
+    --shadow-panel: -12px 0 36px -16px rgb(0 0 0 / 0.22);
+    --shadow-modal: 0 24px 56px -16px rgb(0 0 0 / 0.28);
+    --shadow-sidebar: 0 4px 11.4px rgb(0 0 0 / 0.25);
+
+    /* ── Marka gradyanı (ikon rozetleri, vurgular) ── */
+    --gradient-brand: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.72) 100%);
+
+    /* ── Vurgu (accent) tokenları — kurumsal, dingin tonlar (neon değil) ── */
+    --accent-blue:   214 76% 47%;  /* kurumsal mavi */
+    --accent-green:  162 58% 37%;  /* teal-yeşil, dingin */
+    --accent-orange: 30 68% 47%;   /* kehribar/bronz, sıcak ama neon değil */
+    --accent-violet: 243 42% 52%;  /* rafine indigo */
+    --accent-pink:   330 64% 52%;  /* dingin gül/pembe */
+    /* accent soft zeminler (ikon çipleri) — dark'ta .dark bloğunda invert edilir */
+    --accent-blue-soft:   214 56% 94%;
+    --accent-green-soft:  162 40% 93%;
+    --accent-orange-soft: 30 64% 93%;
+    --accent-violet-soft: 243 48% 95%;
+    --accent-pink-soft:   330 60% 95%;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-surface-0 font-sans;
+    font-size: var(--text-sm);
+    color: hsl(var(--foreground-default));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  /* ── Sayfaların hard-coded beyaz/gri arka planlarını dark mode'da ezeriz ── */
+  .dark [style*="background: #f0f2f8"],
+  .dark [style*="background: '#f0f2f8'"],
+  .dark [style*="background:#f0f2f8"] {
+    background: hsl(var(--surface-1)) !important;
+  }
+  .dark [style*="background: #ffffff"],
+  .dark [style*="background:#ffffff"],
+  .dark [style*="background: white"],
+  .dark [style*="background: #fff"],
+  .dark [style*="background:#fff"] {
+    background: hsl(var(--surface-0)) !important;
+  }
+  .dark [style*="background: #f5f6fa"],
+  .dark [style*="background:#f5f6fa"] {
+    background: hsl(var(--surface-1)) !important;
+  }
+  .dark [style*="background: rgb(255, 255, 255)"],
+  .dark [style*="background: rgba(255,255,255,1)"] {
+    background: hsl(var(--surface-0)) !important;
+  }
+
+  /* Kart arka planları */
+  .dark [style*="background: '#ffffff'"],
+  .dark [style*="background: 'white'"] {
+    background: hsl(var(--surface-0)) !important;
+  }
+
+  /* Metin renkleri dark'ta */
+  .dark [style*="color: #"] {
+    /* Genel override yapmıyoruz — sadece token kullanan yerler otomatik */
+  }
+
+  /* Page wrapper'lar için Tailwind dark: varyantı da çalışsın diye */
+  .dark .bg-white {
+    background-color: hsl(var(--surface-0)) !important;
+  }
+  .dark .bg-gray-50 {
+    background-color: hsl(var(--surface-1)) !important;
+  }
+  .dark .bg-gray-100 {
+    background-color: hsl(var(--surface-2)) !important;
+  }
+  .dark .text-gray-900 { color: hsl(var(--foreground-strong)) !important; }
+  .dark .text-gray-800 { color: hsl(var(--foreground-strong)) !important; }
+  .dark .text-gray-700 { color: hsl(var(--foreground-default)) !important; }
+  .dark .text-gray-600 { color: hsl(var(--foreground-default)) !important; }
+  .dark .text-gray-500 { color: hsl(var(--foreground-muted)) !important; }
+  .dark .text-gray-400 { color: hsl(var(--foreground-subtle)) !important; }
+  .dark .border-gray-100,
+  .dark .border-gray-200 { border-color: hsl(var(--border)) !important; }
+
+  /* ── Dark Mode ─────────────────────────────────────── */
+  .dark {
+    --background:          222 47% 8%;
+    --foreground:          210 20% 98%;
+    --card:                222 47% 10%;
+    --card-foreground:     210 20% 98%;
+    --surface-0:           222 47% 8%;
+    --surface-1:           222 47% 11%;
+    --surface-2:           222 47% 15%;
+    --secondary:           217 33% 20%;
+    --secondary-foreground:210 20% 88%;
+    --muted:               217 33% 20%;
+    --muted-foreground:    215 16% 55%;
+    --border:              217 33% 22%;
+    --input:               217 33% 22%;
+    --foreground-default:  210 20% 88%;
+    --foreground-strong:   210 20% 98%;
+    --foreground-muted:    215 16% 55%;
+    --foreground-subtle:   215 16% 38%;
+    --primary-soft:        214 70% 16%;
+    --success-soft:        160 60% 10%;
+    --warning-soft:        38 70% 12%;
+    --danger-soft:         0 60% 12%;
+    --info-soft:           199 80% 10%;
+
+    /* Marka / semantik tonlar — koyu zeminde göz yormamak için
+       doygunluk hafif düşürülüp parlaklık korunur/artırılır */
+    --primary:             214 78% 60%;
+    --ring:                214 78% 60%;
+    --success:             160 64% 48%;
+    --warning:             38 88% 58%;
+    --danger:              0 75% 64%;
+    --info:                199 80% 60%;
+
+    /* Accent renkleri + soft zeminleri — koyu zemine uyarlanır (dingin kurumsal) */
+    --accent-blue:         214 76% 64%;
+    --accent-green:        162 52% 52%;
+    --accent-orange:       30 70% 58%;
+    --accent-violet:       243 56% 68%;
+    --accent-pink:         330 68% 66%;
+    --accent-blue-soft:    214 48% 18%;
+    --accent-green-soft:   162 42% 14%;
+    --accent-orange-soft:  30 50% 16%;
+    --accent-violet-soft:  243 40% 20%;
+    --accent-pink-soft:    330 40% 20%;
+
+    --shadow-card:  0 1px 2px 0 rgb(0 0 0 / 0.4);
+    --shadow-pop:   0 8px 24px -6px rgb(0 0 0 / 0.55), 0 2px 6px -2px rgb(0 0 0 / 0.4);
+    --shadow-panel: -12px 0 36px -16px rgb(0 0 0 / 0.6);
+    --shadow-modal: 0 24px 56px -16px rgb(0 0 0 / 0.7);
+    --shadow-sidebar: 0 4px 11.4px rgb(0 0 0 / 0.55);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--surface-1));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--foreground-subtle));
+  }
+}
+
+/* ── Modül tonu — primary'yi danger'a remap eder (acil/afet modülleri) ──
+   Bir alt-ağaca (sayfa kökü veya portal yüzeyi) eklenir; içindeki tüm primary
+   aksanları (buton, bg-gradient-brand rozet, tab, focus/ring, primary-soft çip)
+   otomatik kırmızıya döner. Tek kaynak: yalnız bu değişkenler remap edilir,
+   hiçbir bileşen elle renklendirilmez. Light/dark fark etmez (danger token'ı
+   temaya göre çözülür). */
+.tone-danger {
+  --primary: var(--danger);
+  --primary-foreground: var(--danger-foreground);
+  --primary-soft: var(--danger-soft);
+  --ring: var(--danger);
+  --gradient-brand: linear-gradient(135deg, hsl(var(--danger)) 0%, hsl(var(--danger) / 0.72) 100%);
+}
+
+/*
+  TİPOGRAFİ SINIF SİSTEMİ
+  ─────────────────────────────────────────────────────────────
+  Bileşenlere doğrudan text-xs/sm/... + renk yazmak yasak.
+  Bunun yerine bu semantic sınıflar kullanılır.
+  Boyut veya renk değiştirmek gerekirse SADECE burası güncellenir
+  — her bileşen otomatik değişir.
+  ─────────────────────────────────────────────────────────────
+*/
+@layer components {
+  /* ── Marka / Logo ─────────────────────────────────── */
+  .type-brand      { @apply text-lg font-normal;          color: hsl(var(--foreground-strong)); }
+  .type-brand-sub  { @apply text-sm;                      color: hsl(var(--primary)); }
+
+  /* ── Sayfa Başlıkları ─────────────────────────────── */
+  .type-page-title { @apply text-sm font-medium;          color: hsl(var(--foreground-strong)); }
+  .type-breadcrumb { @apply text-xs;                      color: hsl(var(--foreground-muted)); }
+
+  /* ── Bölüm / Modal Başlıkları ─────────────────────── */
+  .type-section    { @apply text-sm font-medium;          color: hsl(var(--foreground-strong)); }
+  .type-section-sub{ @apply text-xs;                      color: hsl(var(--foreground-muted)); }
+
+  /* ── Navigasyon ───────────────────────────────────── */
+  .type-nav        { @apply text-xs font-medium;          color: hsl(var(--foreground-strong)); }
+
+  /* ── Gövde Metni ──────────────────────────────────── */
+  .type-body       { @apply text-xs;                      color: hsl(var(--foreground-default)); }
+  .type-body-strong{ @apply text-xs font-medium;          color: hsl(var(--foreground-strong)); }
+  .type-muted      { @apply text-xs;                      color: hsl(var(--foreground-muted)); }
+  .type-caption    { font-size: var(--text-caption);      color: hsl(var(--foreground-subtle)); }
+
+  /* ── Form ─────────────────────────────────────────── */
+  .type-label      { @apply text-xs font-medium;          color: hsl(var(--foreground-default)); }
+
+  /* ── Kullanıcı Bilgisi ────────────────────────────── */
+  .type-user-name  { @apply text-sm font-medium;          color: hsl(var(--foreground-strong)); }
+  .type-user-role  { @apply text-xs;                      color: hsl(var(--foreground-muted)); }
+
+  /* ── Header Tarih / Canlı Saat (referans ile aynı) ── */
+  .type-clock      { @apply text-sm tabular-nums;         color: hsl(var(--foreground-muted)); }
+
+  /* ── Tablo ────────────────────────────────────────── */
+  .type-table-head { @apply text-xs font-medium;          color: hsl(var(--foreground-muted)); }
+  .type-table-cell { @apply text-xs;                      color: hsl(var(--foreground-strong)); }
+
+  /* ── KPI / İstatistik ─────────────────────────────── */
+  .type-kpi-value  { @apply text-xl font-medium leading-none; color: hsl(var(--foreground-strong)); }
+  .type-kpi-label  { @apply text-xs;                      color: hsl(var(--foreground-muted)); }
+  .type-stat-value { @apply text-3xl font-bold leading-none tabular-nums; color: hsl(var(--foreground-strong)); }
+  .type-stat-label { @apply text-xs font-medium;          color: hsl(var(--foreground-muted)); }
+
+  /* ── Standalone Sayfalar (Auth, Hata, Onboarding) ── */
+  .type-heading    { @apply text-2xl font-semibold;       color: hsl(var(--foreground-strong)); }
+  .type-heading-sm { @apply text-xl font-semibold;        color: hsl(var(--foreground-strong)); }
+  .type-desc       { @apply text-sm;                      color: hsl(var(--foreground-muted)); }
+  .type-link       { @apply text-sm font-medium;          color: hsl(var(--primary)); }
+  .type-link-sm    { @apply text-xs font-medium;          color: hsl(var(--primary)); }
+}
+
+/*
+  TOAST (Sonner) — TASARIM TEK KAYNAKTAN
+  ─────────────────────────────────────────────────────────────
+  Tüm toast görünümü buradan beslenir; token tabanlı + dark-safe.
+  Renk/şekil/gölge değişimi için SADECE burası güncellenir.
+  ─────────────────────────────────────────────────────────────
+*/
+[data-sonner-toaster] {
+  --normal-bg: hsl(var(--surface-0));
+  --normal-border: hsl(var(--border));
+  --normal-text: hsl(var(--foreground-default));
+  --border-radius: var(--radius-card);
+}
+
+[data-sonner-toast] {
+  background: hsl(var(--surface-0)) !important;
+  color: hsl(var(--foreground-default)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-left-width: 4px !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-modal) !important;
+  padding: 14px 16px !important;
+  gap: 12px !important;
+  font-family: var(--font-sans) !important;
+  align-items: flex-start !important;
+}
+
+[data-sonner-toast] [data-title] {
+  font-family: var(--font-sans) !important;
+  color: hsl(var(--foreground-strong));
+  font-weight: 600;
+  font-size: var(--text-sm);
+  letter-spacing: normal;
+  line-height: 1.35;
+}
+
+[data-sonner-toast] [data-description] {
+  font-family: var(--font-sans) !important;
+  color: hsl(var(--foreground-muted));
+  font-size: var(--text-xs);
+  letter-spacing: normal;
+  margin-top: 2px;
+}
+
+[data-sonner-toast] [data-icon] {
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+}
+
+[data-sonner-toast] [data-close-button] {
+  background: hsl(var(--surface-0)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  color: hsl(var(--foreground-muted)) !important;
+  border-radius: var(--radius-field) !important;
+}
+
+[data-sonner-toast][data-type='success'] { border-left-color: hsl(var(--success)) !important; }
+[data-sonner-toast][data-type='success'] [data-icon] { color: hsl(var(--success)); }
+[data-sonner-toast][data-type='error'] { border-left-color: hsl(var(--danger)) !important; }
+[data-sonner-toast][data-type='error'] [data-icon] { color: hsl(var(--danger)); }
+[data-sonner-toast][data-type='warning'] { border-left-color: hsl(var(--warning)) !important; }
+[data-sonner-toast][data-type='warning'] [data-icon] { color: hsl(var(--warning)); }
+[data-sonner-toast][data-type='info'] { border-left-color: hsl(var(--info)) !important; }
+[data-sonner-toast][data-type='info'] [data-icon] { color: hsl(var(--info)); }
+
+
+
+/* ══════════════════════════════════════════════════════════════
+   AUTH — PREMIUM DESIGN SYSTEM v3
+   Split-panel desktop · Card tablet · Full-screen mobile
+   Blue (#1486C9) vatandaş · Amber (#F2872E) firma
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Keyframes ── */
+@keyframes auth-up   { from { opacity:0; transform:translateY(24px) } to { opacity:1; transform:translateY(0) } }
+@keyframes auth-in   { from { opacity:0; transform:scale(.94) } to { opacity:1; transform:scale(1) } }
+@keyframes auth-float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes auth-orb  { 0%,100%{transform:scale(1);opacity:.7} 50%{transform:scale(1.18);opacity:1} }
+@keyframes auth-spin { to { transform:rotate(360deg) } }
+
+/* ════════════════════════════════════════════════════════
+   VATANDAŞ/FİRMA GİRİŞ EKRANI — tam ekran gündüz sahnesi + cam panel
+   Kullanıcı isteği (2026-10-08): "tasarımı tamamen değiştir, halen
+   istediğim gibi olmadı" — önceki koyu/gece 50/50 split-screen (sol form /
+   sağ düz renkli hero bloğu, Sultangazi ile aynı iskelet) tamamen
+   kaldırıldı. Yeni yapı admin panelin tasarım diliyle eşleşiyor (tam
+   ekran illüstrasyon + yüzen cam kart) ama kendi sahnesini kullanıyor.
+   ════════════════════════════════════════════════════════ */
+@keyframes auth-rise { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+.auth-shell {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  background: #0B0B2A;
+}
+/* Arka plan: izometrik neon Bakırköy şehir planı (Higgsfield, 2026-10-08) */
+.auth-shell__art {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+}
+.auth-shell__veil {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,8,30,.55) 0%, rgba(8,8,30,.05) 22%, rgba(8,8,30,.05) 72%, rgba(8,8,30,.55) 100%);
+  pointer-events: none;
+}
+.auth-shell__veil--company {
+  background: linear-gradient(180deg, rgba(30,16,2,.35) 0%, rgba(30,16,2,.05) 22%, rgba(30,16,2,.05) 68%, rgba(30,16,2,.4) 100%);
+}
+
+.auth-shell__topbar {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px;
+}
+.auth-shell__brand { display: flex; align-items: center; gap: 10px; }
+.auth-shell__brand-logo { height: 32px; width: 32px; object-fit: contain; filter: drop-shadow(0 2px 6px rgb(0 0 0 / .18)); }
+.auth-shell__brand-logo-h { height: 36px; max-width: 200px; object-fit: contain; filter: drop-shadow(0 2px 6px rgb(0 0 0 / .18)); }
+.auth-shell__brand-name { font-size: 14px; font-weight: 700; letter-spacing: -.01em; color: #fff; text-shadow: 0 1px 6px rgb(0 0 0 / .6); }
+.auth-shell__clock {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 999px;
+  background: rgb(255 255 255 / .55); backdrop-filter: blur(10px);
+  border: 1px solid rgb(255 255 255 / .6);
+  font-size: 11.5px; font-weight: 600; color: #35526B;
+  box-shadow: 0 4px 14px -6px rgb(15 76 129 / .25);
+}
+
+.auth-shell__center {
+  position: relative; z-index: 2;
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px 16px 32px;
+}
+
+/* ── Cam panel ── */
+.auth-glass {
+  width: 100%; max-width: 408px;
+  border-radius: 20px;
+  background: rgb(255 255 255 / .74);
+  backdrop-filter: blur(22px) saturate(1.4);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  border: 1px solid rgb(255 255 255 / .8);
+  box-shadow:
+    0 30px 70px -24px rgb(15 50 90 / .45),
+    0 2px 10px -2px rgb(15 50 90 / .12),
+    inset 0 1px 0 rgb(255 255 255 / .9);
+  overflow: hidden;
+  animation: auth-rise .5s cubic-bezier(.32,.72,0,1) both;
+}
+.auth-glass--wide { max-width: 460px; }
+.auth-shell--company .auth-glass {
+  background: rgb(255 250 242 / .78);
+  border-color: rgb(255 255 255 / .7);
+}
+
+.auth-shell__footer {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 24px 18px;
+  font-size: 11px; color: rgb(255 255 255 / .8);
+}
+.auth-shell--company .auth-shell__footer { color: rgb(255 255 255 / .8); }
+.auth-shell__footer-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 999px;
+  background: rgb(255 255 255 / .5); backdrop-filter: blur(8px);
+  border: 1px solid rgb(255 255 255 / .55);
+  font-weight: 700;
+}
+
+@media (max-width: 539px) {
+  .auth-shell__topbar { padding: 16px 16px 8px; }
+  .auth-shell__brand-name { display: none; }
+  .auth-shell__clock span { display: none; }
+  .auth-shell__center { align-items: flex-end; padding: 8px 0 0; }
+  .auth-glass { max-width: 100%; border-radius: 22px 22px 0 0; }
+  .auth-shell__footer { justify-content: center; text-align: center; padding: 10px 16px 16px; }
+}
+
+/* ── Neumorphic Switch ── */
+.auth-switch-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 24px 24px 12px;
+  flex-shrink: 0;
+}
+
+@keyframes auth-switch-slide {
+  from { transform: translateX(var(--from)); }
+  to   { transform: translateX(var(--to)); }
+}
+
+.auth-switch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #EEF2F7;
+  border-radius: 14px;
+  padding: 4px;
+  gap: 0;
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,.1),
+    inset 0 1px 3px rgba(0,0,0,.07),
+    0 1px 0 rgba(255,255,255,.9);
+  width: 100%;
+  max-width: 340px;
+}
+
+/* Sliding pill */
+.auth-switch__pill {
+  position: absolute;
+  top: 4px; left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  border-radius: 11px;
+  background: linear-gradient(145deg, #ffffff 0%, #f0f4f8 100%);
+  box-shadow:
+    0 4px 12px rgba(20,134,201,.22),
+    0 2px 6px rgba(0,0,0,.1),
+    0 1px 0 rgba(255,255,255,.8),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  transition: transform .35s cubic-bezier(.32,.72,0,1);
+  z-index: 0;
+}
+.auth-switch__pill--right {
+  transform: translateX(calc(100% + 0px));
+}
+.auth-switch--company .auth-switch__pill {
+  background: linear-gradient(145deg, #fff8f0 0%, #fdeedd 100%);
+  box-shadow:
+    0 4px 12px rgba(242,135,46,.28),
+    0 2px 6px rgba(0,0,0,.1),
+    0 1px 0 rgba(255,255,255,.8),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.auth-switch__btn {
+  flex: 1;
+  position: relative; z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #9AABB8;
+  cursor: pointer;
+  transition: color .25s cubic-bezier(.32,.72,0,1);
+  white-space: nowrap;
+  letter-spacing: .01em;
+}
+.auth-switch__btn--active {
+  color: #1486C9;
+}
+.auth-switch__btn--active-company {
+  color: #E06A18;
+}
+.auth-switch__ico {
+  width: 15px; height: 15px;
+  flex-shrink: 0;
+  transition: transform .25s cubic-bezier(.32,.72,0,1), color .25s;
+}
+.auth-switch__btn--active .auth-switch__ico {
+  transform: scale(1.1);
+}
+
+@media (min-width: 1024px) {
+  .auth-switch { max-width: 380px; }
+}
+
+/* ── Form sheet (cam panel içi) ── */
+.auth-sheet {
+  flex:1; display:flex; flex-direction:column;
+}
+.auth-sheet__body {
+  flex:1; padding:32px 32px 20px;
+}
+
+/* Telefon giriş ekranı: bütün etkileşim alanları en az 44px, boşluklar bu
+   dokunma alanlarının dışında gereksiz yükseklik oluşturmayacak şekilde dengeli. */
+.auth-login-options { min-height:44px; }
+.auth-consent-list > :not([hidden]) ~ :not([hidden]) { margin-top:2px; }
+.auth-footer-touch-row {
+  min-height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+.auth-footer-touch-row a {
+  min-height:36px;
+  display:inline-flex;
+  align-items:center;
+}
+
+@media (max-width: 539px) {
+  .auth-switch-wrap { padding:20px 24px 10px; }
+  .auth-switch__btn { min-height:44px; padding-top:8px; padding-bottom:8px; }
+  .auth-sheet__body { padding-top:24px; padding-bottom:14px; }
+  .auth-login-form > :not([hidden]) ~ :not([hidden]) { margin-top:12px; }
+  .auth-login-form .auth-login-options { margin-top:6px; }
+  .auth-login-form .auth-consent-list { margin-top:2px; }
+  .auth-login-form .auth-consent-list + button { margin-top:12px; }
+  .auth-sheet__footer { padding-top:10px; padding-bottom:18px; gap:0; }
+  .auth-footer-touch-row,
+  .auth-footer-touch-row a { min-height:44px; }
+}
+@media (max-width: 380px) {
+  .auth-sheet__body { padding:24px 20px 16px; }
+}
+@media (min-width: 1024px) {
+  .auth-sheet__body { padding:40px 48px 24px; }
+}
+
+/* Form başlığı — eskiden mobilde hero panelinde gösteriliyordu; hero
+   kaldırıldığı için artık tüm ekran boyutlarında cam panel içinde görünür. */
+.auth-form-title {
+  display: block;
+  font-size: 21px;
+  font-weight: 800;
+  color: #0C2942;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.auth-form-sub {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6E8092;
+  margin-bottom: 22px;
+}
+@media (min-width: 1024px) {
+  .auth-form-title {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+  .auth-form-sub {
+    margin-bottom: 28px;
+    display: block;
+  }
+}
+
+/* OTP / merkezi içerik modu */
+.auth-sheet__body--center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.otp-form {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+.otp-form > * { width: 100%; }
+
+/* OTP form başlık bloğu — input üstünde */
+.otp-form__header {
+  margin-bottom: 8px;
+  text-align: center;
+}
+.otp-form__title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0C2942;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.otp-form__sub {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6E8092;
+  line-height: 1.6;
+}
+.auth-shell--company .otp-form__title { color: #2e1800; }
+
+/* Auth context radius override */
+.auth-sheet__body {
+  --radius-field: 0.5rem; /* 8px */
+  --radius-card: 0.5rem;
+}
+
+/* Label */
+.auth-sheet__body label {
+  font-size:11px !important; font-weight:800 !important;
+  color:#38506A !important; letter-spacing:.06em !important;
+  text-transform:uppercase !important;
+}
+
+/* Input — OTP cell'leri hariç */
+.auth-sheet__body input:not(.otp-cell):not([type='checkbox']):not([type='radio']),
+.auth-sheet__body textarea {
+  font-family:'Plus Jakarta Sans', system-ui, sans-serif !important;
+  font-size:15px !important; font-weight:600 !important;
+  color:#0C2942 !important;
+  background:#F4F7FA !important;
+  border-radius:8px !important;
+  border:1.5px solid #E4EAF1 !important;
+  transition:all .18s cubic-bezier(.32,.72,0,1) !important;
+}
+.auth-sheet__body input:not(.otp-cell):not([type='checkbox']):not([type='radio']) {
+  height:48px !important;
+  padding-left:46px !important;
+}
+.auth-sheet__body input:not(.otp-cell):not([type='checkbox']):not([type='radio']):hover,
+.auth-sheet__body textarea:hover {
+  background:#EEF3F8 !important; border-color:#C8D5E4 !important;
+}
+.auth-sheet__body input:not(.otp-cell):not([type='checkbox']):not([type='radio']):focus,
+.auth-sheet__body textarea:focus {
+  background:#fff !important; border-color:#1486C9 !important;
+  box-shadow:0 0 0 3px rgba(20,134,201,.12) !important;
+  outline:none !important;
+}
+.auth-shell--company .auth-sheet__body input:not(.otp-cell):not([type='checkbox']):not([type='radio']):focus,
+.auth-shell--company .auth-sheet__body textarea:focus {
+  border-color:#F2872E !important;
+  box-shadow:0 0 0 3px rgba(242,135,46,.12) !important;
+}
+.auth-sheet__body input:not(.otp-cell):not([type='checkbox']):not([type='radio'])::placeholder,
+.auth-sheet__body textarea::placeholder { color:#9AABB8 !important; font-weight:500 !important; }
+
+/* CTA butonu */
+.auth-cta {
+  width:100%; height:50px; border-radius:10px;
+  background: linear-gradient(140deg, #38A6E6 0%, #1486C9 50%, #0E66A8 100%);
+  color:#fff;
+  font-family:'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size:15px; font-weight:800; letter-spacing:.01em;
+  border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  box-shadow:
+    0 14px 32px rgba(20,134,201,.38),
+    0 4px 10px rgba(20,134,201,.18),
+    inset 0 1px 0 rgba(255,255,255,.25);
+  transition: transform .18s cubic-bezier(.32,.72,0,1), box-shadow .2s;
+  margin-top:10px; position:relative; overflow:hidden;
+}
+.auth-cta::before {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(110deg, rgba(255,255,255,.22) 0%, transparent 55%);
+}
+.auth-cta:hover:not(:disabled) {
+  transform:translateY(-2px);
+  box-shadow:
+    0 22px 44px rgba(20,134,201,.48),
+    0 8px 18px rgba(20,134,201,.24),
+    inset 0 1px 0 rgba(255,255,255,.3);
+}
+.auth-cta:active:not(:disabled) { transform:translateY(1px) scale(.985); }
+.auth-cta:disabled { opacity:.6; transform:none; cursor:not-allowed; }
+
+/* Dev button */
+.auth-dev-btn {
+  width:100%; padding:10px; border-radius:8px;
+  border:1.5px dashed #C8D5E0; background:transparent;
+  color:#6E8092; font-family:'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size:11.5px; font-weight:700; cursor:pointer;
+  transition:all .16s cubic-bezier(.32,.72,0,1); margin-top:6px;
+}
+.auth-dev-btn:hover {
+  background:#F0F6FC; border-color:#1486C9; color:#1486C9; border-style:solid;
+}
+
+/* Footer */
+.auth-sheet__footer {
+  padding:14px 32px 28px;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  border-top:1px solid #EEF1F5; background:#fff;
+}
+@media (max-width: 380px) { .auth-sheet__footer { padding:12px 20px 24px; } }
+@media (min-width: 1024px) { .auth-sheet__footer { padding:16px 48px 32px; } }
+
+.auth-footer-row {
+  display:flex; align-items:center; gap:6px;
+  font-size:13px; font-weight:600; color:#6E8092;
+}
+.auth-footer-row a {
+  color:#1486C9; font-weight:800; text-decoration:none;
+  transition:color .15s; position:relative;
+}
+.auth-footer-row a:hover { color:#0E66A8; }
+
+/* Şifremi unuttum */
+.auth-forgot {
+  display:block; text-align:right;
+  font-size:12px; font-weight:800; color:#1486C9;
+  text-decoration:none; margin-top:6px;
+  transition:color .15s, opacity .15s;
+}
+.auth-forgot:hover { color:#0E66A8; opacity:.85; }
+
+/* ════════════════════════════════
+   FİRMA VARYANTI
+   ════════════════════════════════ */
+.auth-shell--company { background:#120c04; }
+
+/* Firma token override */
+.auth-shell--company {
+  --primary: 28 90% 55%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 28 90% 55%;
+}
+.auth-shell--company .auth-cta {
+  background: linear-gradient(140deg, #F5B731 0%, #F2872E 50%, #E06A18 100%) !important;
+  box-shadow:0 14px 32px rgba(242,135,46,.4), 0 4px 10px rgba(242,135,46,.2), inset 0 1px 0 rgba(255,255,255,.25) !important;
+}
+.auth-shell--company .auth-cta:hover:not(:disabled) {
+  box-shadow:0 22px 44px rgba(242,135,46,.52), 0 8px 18px rgba(242,135,46,.26), inset 0 1px 0 rgba(255,255,255,.3) !important;
+}
+.auth-shell--company .auth-forgot       { color:#F2872E !important; }
+.auth-shell--company .auth-forgot:hover { color:#E06A18 !important; }
+.auth-shell--company .auth-footer-row a { color:#F2872E !important; }
+.auth-shell--company .auth-footer-row a:hover { color:#E06A18 !important; }
+.auth-shell--company .auth-dev-btn:hover { border-color:#F2872E !important; color:#F2872E !important; }
+
+/* ════════════════════════════════
+   DARK MODE
+   ════════════════════════════════ */
+.dark .auth-shell   { background:#030810; }
+.dark .auth-sheet   { background:#0f1a26; }
+.dark .auth-tabs    { background:#0f1a26; border-color:#162336; }
+.dark .auth-sheet__footer { background:#0f1a26; border-color:#162336; }
+.dark .auth-footer-row    { color:#7a94a8; }
+.dark .auth-sheet__body label { color:#6888a4 !important; }
+.dark .auth-sheet__body input:not(.otp-cell),
+.dark .auth-sheet__body textarea {
+  background:#0a1520 !important; border-color:#1c2d40 !important; color:#e0eaf4 !important;
+}
+.dark .auth-sheet__body input:not(.otp-cell):hover,
+.dark .auth-sheet__body textarea:hover  { background:#0d1928 !important; border-color:#243c54 !important; }
+.dark .auth-sheet__body input:not(.otp-cell):focus,
+.dark .auth-sheet__body textarea:focus  { background:#0f1e2e !important; border-color:#1486C9 !important; }
+.dark .auth-sheet__body input:not(.otp-cell)::placeholder,
+.dark .auth-sheet__body textarea::placeholder { color:#3e566e !important; }
+.dark .auth-dev-btn  { border-color:#1c2d40; color:#4e6a82; }
+.dark .auth-dev-btn:hover { background:#0a1520; border-color:#1486C9; color:#38A6E6; border-style:solid; }
+.dark .auth-forgot   { color:#38A6E6; }
+
+/* ════════════════════════════════════════════════════════
+   OTP PREMIUM — Liquid 3D Design System
+   ════════════════════════════════════════════════════════ */
+
+/* Keyframes */
+@keyframes otp-liquid {
+  0%,100% { border-radius:60% 40% 55% 45% / 55% 45% 60% 40%; transform:scale(1) rotate(0deg); }
+  25%      { border-radius:45% 55% 40% 60% / 60% 40% 55% 45%; transform:scale(1.04) rotate(3deg); }
+  50%      { border-radius:55% 45% 60% 40% / 40% 60% 45% 55%; transform:scale(0.97) rotate(-2deg); }
+  75%      { border-radius:40% 60% 45% 55% / 55% 45% 60% 40%; transform:scale(1.02) rotate(1deg); }
+}
+@keyframes otp-pulse-ring {
+  0%   { transform:scale(1);   opacity:.5; }
+  100% { transform:scale(1.7); opacity:0; }
+}
+@keyframes otp-spin {
+  to { transform:rotate(360deg); }
+}
+@keyframes otp-float {
+  0%,100% { transform:translateY(0px); }
+  50%      { transform:translateY(-6px); }
+}
+@keyframes otp-cell-pop {
+  0%  { transform:scale(1); }
+  40% { transform:scale(1.18) translateY(-4px); }
+  70% { transform:scale(0.94); }
+  100%{ transform:scale(1); }
+}
+@keyframes otp-shimmer {
+  0%   { transform:translateX(-100%) skewX(-15deg); }
+  100% { transform:translateX(250%) skewX(-15deg); }
+}
+@keyframes otp-success-pop {
+  0%  { transform:scale(0.8); opacity:0; }
+  60% { transform:scale(1.1); }
+  100%{ transform:scale(1);   opacity:1; }
+}
+@keyframes otp-check {
+  from { stroke-dashoffset:30; }
+  to   { stroke-dashoffset:0; }
+}
+@keyframes otp-progress {
+  from { opacity:0; transform:scaleX(0); }
+  to   { opacity:1; transform:scaleX(1); }
+}
+
+@keyframes active-session-glow {
+  0%, 100% { box-shadow: 0 6px 18px rgba(16,185,129,0.35), 0 0 0 0 rgba(16,185,129,0.55); border-color: rgba(16,185,129,0.9); }
+  50%      { box-shadow: 0 6px 24px rgba(16,185,129,0.55), 0 0 0 6px rgba(16,185,129,0); border-color: rgba(16,185,129,0.4); }
+}
+@keyframes active-session-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.35; transform: scale(0.8); }
+}
+.active-session-banner {
+  border: 2px solid rgba(16,185,129,0.9);
+  animation: active-session-glow 1.6s ease-in-out infinite;
+}
+.active-session-dot {
+  animation: active-session-dot 1.1s ease-in-out infinite;
+}
+
+/* ── Wrapper ── */
+.otp-premium-form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.otp-premium-form > * { width: 100%; }
+
+/* ── Liquid Shield ── */
+.otp-shield-wrap {
+  position: relative;
+  width: 100px; height: 100px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 4px;
+  animation: otp-float 5s ease-in-out infinite;
+}
+.otp-shield-liquid {
+  position: absolute; inset: -8px;
+  background: linear-gradient(135deg, rgba(20,134,201,.22) 0%, rgba(56,166,230,.35) 100%);
+  border-radius: 60% 40% 55% 45% / 55% 45% 60% 40%;
+  animation: otp-liquid 7s ease-in-out infinite;
+  filter: blur(2px);
+}
+.otp-shield-liquid--2 {
+  inset: -14px;
+  background: linear-gradient(225deg, rgba(56,166,230,.15) 0%, rgba(20,134,201,.1) 100%);
+  animation-duration: 9s;
+  animation-delay: -3s;
+  filter: blur(4px);
+}
+.otp-shield-liquid--3 {
+  inset: -20px;
+  background: radial-gradient(circle, rgba(20,134,201,.08) 0%, transparent 70%);
+  animation-duration: 11s;
+  animation-delay: -6s;
+  filter: blur(8px);
+}
+.otp-shield-icon {
+  width: 64px; height: 64px;
+  position: relative; z-index: 2;
+  filter: drop-shadow(0 8px 24px rgba(20,134,201,.5)) drop-shadow(0 2px 6px rgba(0,0,0,.2));
+}
+.otp-ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid rgba(20,134,201,.4);
+  animation: otp-pulse-ring 2.5s cubic-bezier(.36,.11,.89,.32) infinite;
+}
+.otp-ring--2 { animation-delay: 1.25s; border-color: rgba(56,166,230,.3); }
+
+/* ── Header ── */
+.otp-premium-header { text-align: center; }
+.otp-premium-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0C2942;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.otp-premium-sub {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6E8092;
+  line-height: 1.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.otp-premium-target {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: linear-gradient(135deg, #EFF6FD, #E0EFFA);
+  border: 1px solid rgba(20,134,201,.2);
+  color: #1486C9;
+  font-weight: 700;
+  padding: 2px 10px 2px 8px;
+  border-radius: 99px;
+  font-size: 12px;
+}
+
+/* ── Progress Track ── */
+.otp-progress-track {
+  position: relative;
+  height: 4px;
+  background: #EEF1F5;
+  border-radius: 99px;
+  overflow: visible;
+}
+.otp-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #38A6E6, #1486C9);
+  border-radius: 99px;
+  transition: width .25s cubic-bezier(.32,.72,0,1);
+  box-shadow: 0 0 8px rgba(20,134,201,.4);
+}
+.otp-progress-dots {
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1px;
+  pointer-events: none;
+}
+.otp-progress-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #D0DBE8;
+  border: 1.5px solid #fff;
+  transition: all .2s cubic-bezier(.32,.72,0,1);
+}
+.otp-progress-dot--active {
+  background: #1486C9;
+  box-shadow: 0 0 6px rgba(20,134,201,.6);
+  transform: scale(1.3);
+}
+
+/* ── OTP Cells ── */
+.otp-field-wrap { width: 100%; }
+.otp-cells {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.otp-cell-wrap {
+  position: relative;
+  flex: 1;
+  max-width: 52px;
+}
+.otp-cell-glow {
+  position: absolute; inset: -4px;
+  border-radius: 14px;
+  background: radial-gradient(circle, rgba(20,134,201,.2) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity .2s;
+  pointer-events: none;
+  filter: blur(4px);
+}
+.otp-cell-glow--active { opacity: 1; }
+.otp-cell-glow--company { background: radial-gradient(circle, rgba(242,135,46,.25) 0%, transparent 70%); }
+
+.otp-cell {
+  width: 100%;
+  height: 60px;
+  border-radius: 12px;
+  border: 2px solid #E4EAF1;
+  background: #F7F9FC;
+  color: #0C2942;
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  transition: all .18s cubic-bezier(.32,.72,0,1);
+  outline: none;
+  position: relative; z-index: 1;
+  -webkit-appearance: none;
+  caret-color: transparent;
+  box-shadow:
+    0 2px 6px rgba(0,0,0,.05),
+    inset 0 1px 0 rgba(255,255,255,.8);
+}
+.otp-cell:focus {
+  border-color: #1486C9;
+  background: #fff;
+  box-shadow:
+    0 0 0 4px rgba(20,134,201,.12),
+    0 4px 12px rgba(20,134,201,.15),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  transform: translateY(-2px) scale(1.04);
+}
+.otp-cell--filled {
+  border-color: #1486C9;
+  background: linear-gradient(145deg, #EFF6FD 0%, #E2F0FA 100%);
+  color: #1486C9;
+  box-shadow:
+    0 4px 14px rgba(20,134,201,.18),
+    0 1px 4px rgba(20,134,201,.1),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  animation: otp-cell-pop .3s cubic-bezier(.32,.72,0,1) both;
+}
+.otp-cell--filled-company {
+  border-color: #F2872E;
+  background: linear-gradient(145deg, #FEF4EC 0%, #FDE9D4 100%);
+  color: #E06A18;
+  box-shadow:
+    0 4px 14px rgba(242,135,46,.18),
+    0 1px 4px rgba(242,135,46,.1),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  animation: otp-cell-pop .3s cubic-bezier(.32,.72,0,1) both;
+}
+.otp-cell--error {
+  border-color: #EF4444;
+  background: #FEF2F2;
+  animation: none;
+}
+
+.otp-cell-shine {
+  position: absolute;
+  top: 6px; left: 8px; right: 8px;
+  height: 30%;
+  background: linear-gradient(180deg, rgba(255,255,255,.7) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 6px;
+  pointer-events: none;
+  z-index: 2;
+}
+.otp-cell-shine--company {
+  background: linear-gradient(180deg, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 100%);
+}
+
+.otp-error {
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  margin-top: 10px;
+  font-size: 12px; font-weight: 700;
+  color: #EF4444;
+}
+
+/* ── Submit Button ── */
+.otp-submit-btn {
+  position: relative;
+  width: 100%;
+  height: 54px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4DBAEE 0%, #1486C9 50%, #0E66A8 100%);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 15px; font-weight: 800;
+  border: none; cursor: pointer;
+  overflow: hidden;
+  transition: all .2s cubic-bezier(.32,.72,0,1);
+  box-shadow:
+    0 6px 20px rgba(20,134,201,.25),
+    0 2px 6px rgba(20,134,201,.15),
+    inset 0 1px 0 rgba(255,255,255,.2);
+  opacity: .55;
+}
+.otp-submit-btn--ready {
+  opacity: 1;
+  box-shadow:
+    0 14px 32px rgba(20,134,201,.42),
+    0 4px 10px rgba(20,134,201,.2),
+    inset 0 1px 0 rgba(255,255,255,.25);
+}
+.otp-submit-btn--ready:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 20px 40px rgba(20,134,201,.5),
+    0 8px 16px rgba(20,134,201,.25),
+    inset 0 1px 0 rgba(255,255,255,.3);
+}
+.otp-submit-btn--ready:active { transform: translateY(1px) scale(.98); }
+.otp-submit-btn--success {
+  opacity: 1;
+  background: linear-gradient(135deg, #34C27A 0%, #22A260 100%);
+  box-shadow: 0 14px 32px rgba(34,162,96,.4);
+  animation: otp-success-pop .4s cubic-bezier(.32,.72,0,1) both;
+}
+.otp-submit-inner {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  position: relative; z-index: 1;
+}
+.otp-submit-shimmer {
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%; height: 100%;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,.25), transparent);
+  animation: otp-shimmer 2.8s cubic-bezier(.4,0,.6,1) infinite;
+}
+.otp-submit-btn:disabled .otp-submit-shimmer { display: none; }
+.otp-spin { animation: otp-spin .8s linear infinite; }
+.otp-success-check {
+  width: 20px; height: 20px;
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: otp-check .4s .1s cubic-bezier(.32,.72,0,1) forwards;
+}
+
+/* ── Resend ── */
+.otp-resend-wrap { display: flex; justify-content: center; }
+
+.otp-resend-timer {
+  display: flex; align-items: center; gap: 10px;
+}
+.otp-timer-ring {
+  position: relative;
+  width: 36px; height: 36px;
+  flex-shrink: 0;
+}
+.otp-timer-svg {
+  width: 36px; height: 36px;
+  transform: rotate(-90deg);
+}
+.otp-timer-num {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: #1486C9;
+}
+.otp-resend-label {
+  font-size: 12px; font-weight: 600; color: #9AABB8;
+}
+
+.otp-resend-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 18px;
+  border-radius: 99px;
+  border: 1.5px solid rgba(20,134,201,.25);
+  background: linear-gradient(135deg, #EFF6FD, #E4F0FA);
+  color: #1486C9;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer;
+  transition: all .18s cubic-bezier(.32,.72,0,1);
+}
+.otp-resend-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #E2F0FA, #D4E8F7);
+  border-color: rgba(20,134,201,.45);
+  box-shadow: 0 4px 12px rgba(20,134,201,.15);
+  transform: translateY(-1px);
+}
+.otp-resend-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+/* ── Dev shortcut ── */
+.otp-dev-fill {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1.5px dashed #C8D5E0;
+  background: transparent;
+  color: #9AABB8;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-size: 11px; font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+}
+.otp-dev-fill:hover {
+  border-color: #1486C9; color: #1486C9;
+  background: #EFF6FD; border-style: solid;
+}
+
+/* Company variant overrides */
+.auth-shell--company .otp-shield-liquid {
+  background: linear-gradient(135deg, rgba(242,135,46,.22) 0%, rgba(245,183,49,.35) 100%);
+}
+.auth-shell--company .otp-shield-liquid--2 {
+  background: linear-gradient(225deg, rgba(245,183,49,.15) 0%, rgba(242,135,46,.1) 100%);
+}
+.auth-shell--company .otp-ring { border-color: rgba(242,135,46,.4); }
+.auth-shell--company .otp-ring--2 { border-color: rgba(245,183,49,.3); }
+.auth-shell--company .otp-premium-title { color: #2e1800; }
+.auth-shell--company .otp-premium-target { background: linear-gradient(135deg,#FEF4EC,#FDE9D4); border-color:rgba(242,135,46,.25); color:#E06A18; }
+.auth-shell--company .otp-progress-fill { background: linear-gradient(90deg,#F5B731,#F2872E); box-shadow:0 0 8px rgba(242,135,46,.4); }
+.auth-shell--company .otp-progress-dot--active { background: #F2872E; box-shadow: 0 0 6px rgba(242,135,46,.6); }
+.auth-shell--company .otp-submit-btn { background: linear-gradient(135deg,#F5B731 0%,#F2872E 50%,#E06A18 100%); }
+.auth-shell--company .otp-submit-btn--ready { box-shadow:0 14px 32px rgba(242,135,46,.42),0 4px 10px rgba(242,135,46,.2),inset 0 1px 0 rgba(255,255,255,.25); }
+.auth-shell--company .otp-submit-btn--ready:hover { box-shadow:0 20px 40px rgba(242,135,46,.5),0 8px 16px rgba(242,135,46,.25),inset 0 1px 0 rgba(255,255,255,.3); }
+.auth-shell--company .otp-timer-num { color: #F2872E; }
+.auth-shell--company .otp-timer-svg circle:last-child { stroke: #F2872E; }
+.auth-shell--company .otp-resend-btn { border-color:rgba(242,135,46,.25); background:linear-gradient(135deg,#FEF4EC,#FDE9D4); color:#E06A18; }
+.auth-shell--company .otp-resend-btn:hover:not(:disabled) { border-color:rgba(242,135,46,.45); box-shadow:0 4px 12px rgba(242,135,46,.15); }
+.auth-shell--company .otp-dev-fill:hover { border-color:#F2872E; color:#F2872E; background:#FEF4EC; }
+/* Kurumsal köşe standardı: daire/pill öğeleri dışında büyük Tailwind
+   radius yardımcıları da tasarım tokenı ile aynı 8px değeri kullanır. */
+:where(.rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl) {
+  border-radius: var(--radius-card) !important;
+}
+
+/* Saha anket ekranı tablet ölçeği (kullanıcı isteği 2026-09-01).
+   Anketör tableti ayakta, tek elle, çoğu zaman güneş altında kullanır.
+   Bu ekrandaki tüm dokunulabilir öğeler iOS HIG / Material'ın önerdiği
+   44px eşiğini geçmeli; ölçüm tests/e2e/field-survey-tablet.spec.ts. */
+.field-survey-shell :where(button, a[href], select, textarea, input:not([type='hidden'])) {
+  min-height: 44px;
+}
+.field-survey-shell :where(input, textarea, select) {
+  font-size: 16px; /* iOS Safari'de odaklanınca otomatik yakınlaştırmayı engeller */
+}
+
+/* ════════════════════════════════
+   DESKTOP: form başlığı boyutu
+   ════════════════════════════════ */
+@media (min-width: 1024px) {
+  .auth-form-title { font-size: 28px; letter-spacing: -0.03em; margin-bottom: 8px; }
+  .auth-form-sub { font-size: 14px; line-height: 1.6; margin-bottom: 28px; }
+  .auth-shell--company .auth-form-title { color: #2e1800; }
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "method": "ANY",
+    "route": "/hubs/team",
+    "reason": "SignalR hub route. Has real IAuthorizeData (\"AdminOrAbove\") but cannot be probed with a plain GET/POST the way REST routes are: SignalR's own protocol negotiation runs before ASP.NET Core authorization fully resolves, so an authenticated non-anonymous request without a completed negotiate handshake returns a raw \"Connection ID required\" 400 text body (verified live, not the ApiResponse auth-challenge envelope), not a distinguishable 401/403 authorization failure. Probing negotiate directly requires a full SignalR client handshake, which is out of scope for a generic authz-gate matrix (Ruling D).",
+    "owner": "task-6",
+    "expiryDate": "2026-11-04"
+  },
+  {
+    "method": "ANY",
+    "route": "/hubs/team/negotiate",
+    "reason": "SignalR hub negotiate endpoint for TeamHub. Same protocol-level limitation as /hubs/team: negotiate is the SignalR handshake step itself, not a probeable REST authz gate in the theory's generic sense (Ruling D legitimate WebSocket/SignalR exception).",
+    "owner": "task-6",
+    "expiryDate": "2026-11-04"
+  },
+  {
+    "method": "ANY",
+    "route": "/hubs/citizen",
+    "reason": "SignalR hub route (CitizenHub, policy \"Citizen\"). Same SignalR protocol limitation as /hubs/team — cannot be probed with a plain HTTP verb without a full client handshake (Ruling D).",
+    "owner": "task-6",
+    "expiryDate": "2026-11-04"
+  },
+  {
+    "method": "ANY",
+    "route": "/hubs/citizen/negotiate",
+    "reason": "SignalR hub negotiate endpoint for CitizenHub. Same protocol-level limitation as /hubs/team/negotiate (Ruling D).",
+    "owner": "task-6",
+    "expiryDate": "2026-11-04"
+  },
+  {
+    "method": "ANY",
+    "route": "/hubs/device-monitor",
+    "reason": "SignalR hub route (DeviceMonitorHub, policy \"AdminOrAbove\"). Same SignalR protocol limitation as /hubs/team (Ruling D).",
+    "owner": "task-6",
+    "expiryDate": "2026-11-04"
+  },
+  {
+    "method": "ANY",
+    "route": "/hubs/device-monitor/negotiate",
+    "reason": "SignalR hub negotiate endpoint for DeviceMonitorHub. Same protocol-level limitation as /hubs/team/negotiate (Ruling D).",
+    "owner": "task-6",
+    "expiryDate": "2026-11-04"
+  }
+]

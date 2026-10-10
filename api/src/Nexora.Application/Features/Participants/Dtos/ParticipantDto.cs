@@ -1,0 +1,36 @@
+namespace Nexora.Application.Features.Participants.Dtos;
+
+public record ParticipantDto(
+    Guid Id,
+    string FullName,
+    string Tckn,
+    string? PhotoUrl,
+    DateTime BirthDate,
+    int Age,
+    string Gender,
+    string? Address,
+    string? City,
+    string? District,
+    string? Neighborhood,
+    string? DistrictCode,
+    string? Email,
+    string? Phone,
+    bool IsMinor,
+    string? GuardianPhone,
+    string? GuardianEmail,
+    int ChildrenCount,
+    int GuardianCount,
+    int EventCount,
+    string Status,
+    string? BlockReason,
+    bool IsVerified,
+    bool IsFirstLogin,
+    DateTime RegisteredAt,
+    string? LastEventName,
+    DateTime CreatedAt,
+    int ActivityCount = 0,
+    // Kullanıcı isteği (2026-08-05): admin panelde katılımcı listesinde kilit durumu görünüp
+    // manuel olarak kaldırılabilsin (AdminUser'daki desenin aynısı, bkz. AdminUserDto).
+    bool IsLocked = false,
+    DateTime? LockedUntil = null,
+    int FailedLoginCount = 0);

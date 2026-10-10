@@ -1,0 +1,125 @@
+/* Kullanıcı isteği (2026-10-01): "sultansehir-template" klasöründeki tasarımı önce sol
+ * menü, sağ menü ve Spor Salonu merkezine uygula. Bu dosya sadece /sports sayfasındayken
+ * eklenen .sidebar-ui-pilot / .right-panel-ui-pilot class'larını hedefler — diğer tüm
+ * sayfalar/modüller (mevcut design-system) etkilenmez. Aynı kapsamlama deseni
+ * templates/FacilityTemplate/pilot/facility-ui.css'teki .facility-ui-pilot ile tutarlıdır.
+ *
+ * Template'in temel görsel dili: 3px radius menü öğeleri, düz mavi (#2563eb) aktif dolgu,
+ * ince slate-200 kenarlıklar, 8px radius panel köşeleri, sade beyaz kartlar.
+ */
+
+/* ---- Sol menü (Sidebar) ---- */
+.sidebar-ui-pilot {
+  --radius-lg: 8px;
+}
+.sidebar-ui-pilot nav a,
+.sidebar-ui-pilot nav button {
+  border-radius: 3px !important;
+}
+/* NavLink react-router otomatik olarak aktif öğeye aria-current="page" ekler. */
+.sidebar-ui-pilot nav a[aria-current="page"] {
+  background-color: #eff6ff !important;
+}
+/* Aktif link: template'teki gibi dolgu mavi arka plan + koyu mavi metin/ikon */
+.sidebar-ui-pilot nav a {
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.sidebar-ui-pilot > div:first-child button {
+  border-radius: 3px !important;
+}
+.sidebar-ui-pilot > div:last-child button {
+  border-radius: 3px !important;
+}
+
+/* ---- Sağ panel (RightPanel / Ekibim) ---- */
+.right-panel-ui-pilot aside {
+  border-left-color: #e2e8f0 !important;
+}
+.right-panel-ui-pilot input {
+  border-radius: 5px !important;
+}
+.right-panel-ui-pilot [class*="rounded-pill"] {
+  border-radius: 999px !important;
+}
+.right-panel-ui-pilot button[aria-pressed="true"] {
+  background-color: #eff6ff !important;
+  color: #2563eb !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-ui-pilot *, .right-panel-ui-pilot * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Uygulama kabuğu: sultansehir referansı (64px üst bar, 8px boşluklu kart düzeni) ---- */
+.pilot-app-shell { background: #eef2f6; }
+.pilot-app-shell > header { height: 64px; padding-inline: 16px; border-bottom-color: #e2e8f0; }
+.pilot-app-shell .type-clock { padding: 4px 10px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc; font-size: 12px; font-weight: 500; color: #475569; }
+.pilot-app-shell .type-clock-time { font-family: var(--font-mono); font-weight: 600; color: #0f172a; padding-left: 6px; border-left: 1px solid #cbd5e1; }
+.pilot-shell-body { padding: 8px; gap: 8px; background: #eef2f6; }
+.pilot-shell-body > div > aside.sidebar-ui-pilot,
+.pilot-shell-body > .right-panel-ui-pilot {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+  overflow: hidden;
+}
+.pilot-shell-body > main { overflow: auto; background: transparent; }
+.pilot-shell-body > main > .pilot-page-shell { padding: 0; gap: 8px; background: transparent; }
+.pilot-shell-body .pilot-overview > * + * { margin-top: 8px !important; }
+.pilot-shell-body .pilot-stat-grid { gap: 8px; }
+.pilot-shell-body > div > aside.sidebar-ui-pilot { height: 100%; }
+.sidebar-ui-pilot nav a[aria-current="page"] { background-color: #2563eb !important; color: #fff !important; }
+.sidebar-ui-pilot nav a[aria-current="page"] svg,
+.sidebar-ui-pilot nav a[aria-current="page"] span { color: #fff !important; }
+.sidebar-ui-pilot nav a { font-size: 12px; }
+.pilot-shell-body > .right-panel-ui-pilot aside { width: 276px; border-left: 0; background: #fff; }
+.pilot-shell-body > .right-panel-ui-pilot > div:last-child { background: #f8fafc; border-left-color: #e2e8f0; }
+
+/* ---- Üst bar menü araması ---- */
+.header-menu-search-kbd { display: none; }
+.pilot-app-shell .header-menu-search input { height: 34px; font-size: 12px; background: #f8fafc; border-color: #e2e8f0; border-radius: 5px; }
+.pilot-app-shell .header-menu-search-kbd {
+  display: inline-flex; position: absolute; right: 34px; top: 50%; transform: translateY(-50%);
+  padding: 2px 6px; font-size: 10px; font-weight: 600; color: #64748b; background: #fff;
+  border: 1px solid #e2e8f0; border-radius: 4px; pointer-events: none;
+}
+.pilot-app-shell .header-menu-search:focus-within .header-menu-search-kbd { display: none; }
+.pilot-shell-body .pilot-detail-tabs { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 4px 8px; box-shadow: 0 1px 0 rgba(0,0,0,.05); }
+.pilot-shell-body .pilot-detail-tabs button { height: 40px; font-size: 12px; font-weight: 600; }
+.pilot-shell-body .pilot-detail-content > * + * { margin-top: 8px !important; }
+.pilot-stat-grid.pilot-stat-grid-4 { grid-template-columns: repeat(4,minmax(0,1fr)); }
+.pilot-header-row > .pilot-header-toolbar { margin-top: 0; margin-left: auto; }
+.pilot-filter-row { display: grid; gap: 8px; grid-template-columns: 1fr; align-items: end; }
+@media (min-width: 1024px) { .pilot-filter-row { grid-template-columns: var(--pilot-filter-cols); } }
+.pilot-filter-row > button { justify-self: start; }
+@container (max-width: 840px) { .pilot-stat-grid.pilot-stat-grid-4 { grid-template-columns: repeat(2,minmax(0,1fr)); } .pilot-stat-grid-4 .pilot-stat-card:last-child { grid-column: auto; } }
+.pilot-shell-body .pilot-detail-tabs button svg { width: 26px; height: 26px; padding: 5px; border-radius: 6px; color: var(--tab-ink, #64748b); background: var(--tab-tint, #f1f5f9); }
+.pilot-detail-tabs button:nth-child(6n+1) { --tab-ink: #2563eb; --tab-tint: #eff6ff; }
+.pilot-detail-tabs button:nth-child(6n+2) { --tab-ink: #059669; --tab-tint: #ecfdf5; }
+.pilot-detail-tabs button:nth-child(6n+3) { --tab-ink: #d97706; --tab-tint: #fffbeb; }
+.pilot-detail-tabs button:nth-child(6n+4) { --tab-ink: #7c3aed; --tab-tint: #f5f3ff; }
+.pilot-detail-tabs button:nth-child(6n+5) { --tab-ink: #0284c7; --tab-tint: #f0f9ff; }
+.pilot-detail-tabs button:nth-child(6n) { --tab-ink: #087892; --tab-tint: #ecfcff; }
+.pilot-detail-tabs button[data-tab="applications"] { --tab-ink: #2563eb; --tab-tint: #eff6ff; }
+.pilot-detail-tabs button[data-tab="groups"] { --tab-ink: #059669; --tab-tint: #ecfdf5; }
+.pilot-detail-tabs button[data-tab="sessions"] { --tab-ink: #d97706; --tab-tint: #fffbeb; }
+.pilot-detail-tabs button[data-tab="branches"] { --tab-ink: #7c3aed; --tab-tint: #f5f3ff; }
+.pilot-detail-tabs button[data-tab="attendance"] { --tab-ink: #0284c7; --tab-tint: #f0f9ff; }
+.pilot-detail-tabs button[data-tab="reports"] { --tab-ink: #087892; --tab-tint: #ecfcff; }
+
+button.pilot-select[aria-haspopup] { min-height: 44px; height: 44px; background: #f8fafc; border-color: #e2e8f0; border-radius: 6px; font-size: 12px; font-weight: 400; color: #334155; box-shadow: none !important; }
+button.pilot-select[aria-haspopup] span { font-size: 12px; }
+button.pilot-select[aria-haspopup][aria-expanded="true"], button.pilot-select[aria-haspopup]:focus-visible { background: #fff; border-color: #60a5fa; }
+.pilot-header-row > .pilot-header-slot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-left: auto; }
+.pilot-header-row > .pilot-header-slot:empty { display: none; }
+.pilot-header-row > .pilot-header-slot:not(:empty) + .pilot-header-toolbar { margin-left: 0; }
+input.pilot-date { min-height: 44px; height: 44px; background: #f8fafc; border-color: #e2e8f0; border-radius: 6px; font-size: 12px; color: #334155; box-shadow: none !important; }
+input.pilot-date:focus { background: #fff; border-color: #60a5fa; }
+.pilot-page-header:not(.pilot-overview-header) .pilot-header-row > .pilot-header-toolbar { flex-wrap: nowrap; min-width: 0; }
+.pilot-page-header:not(.pilot-overview-header) .pilot-header-row .pilot-facility-select { flex: 0 1 320px; width: 320px; margin-right: 0; }
+.pilot-filters [data-toggle-row] { min-height: 44px; height: 44px; padding-block: 0; border-radius: 6px; background: #f8fafc; border-color: #e2e8f0; }
+.pilot-filters [data-toggle-row] label { font-size: 12px; font-weight: 400; color: #334155; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.pilot-filters [data-toggle-row] p { display: none; }

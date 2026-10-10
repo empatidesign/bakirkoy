@@ -1,0 +1,19 @@
+node_modules
+dist
+.env
+.env.local
+*.tsbuildinfo
+tests/e2e/.auth/
+test-results/
+playwright-report/
+test-artifacts/
+
+# Mobil API ekibi için hazırlanan spesifikasyon notları — asla commit edilmez.
+mobilyeniapi.md
+
+# SQL dump (asla commit edilmez)
+nexora_dump_*.sql
+*.dump
+*_dump_*.sql
+blob-report/
+playwright-results.json

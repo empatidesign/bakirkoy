@@ -1,0 +1,63 @@
+# Kök: sadece ana projeler
+/*
+!/.gitignore
+!/api/
+!/admin-panel/
+!/citizen-portal/
+!/public-portal/
+
+# Genel
+node_modules/
+dist/
+bin/
+obj/
+TestResults/
+publish/
+publish.bak/
+artifacts/
+graphify-out/
+test-results/
+test-artifacts/
+playwright-report/
+playwright-results.json
+coverage/
+.DS_Store
+*.log
+*.bak
+*.bak-*
+*.dump
+*.sql
+!api/src/**/Migrations/**/*.sql
+.env
+.env.*
+!.env.example
+.claude/
+.kombai/
+.worktrees/
+.local-backups/
+.vscode/
+.idea/
+CLAUDE.md
+*.md
+!README.md
+!api/scripts/**/README.md
+
+# api: gereksiz / hassas
+api/docs/
+api/e2e-scenarios/
+api/test-evidence/
+api/test-isolated/
+api/perf/
+api/docker-compose.yml.bak
+api/src/Nexora.Api/appsettings.Development.json*
+api/src/Nexora.Api/appsettings.Test.json
+
+# admin-panel
+admin-panel/preview/
+admin-panel/check403.mjs
+admin-panel/excel.png
+admin-panel/word.png
+
+# citizen-portal (native platformlar yerelde uretilir)
+citizen-portal/android/
+citizen-portal/ios/

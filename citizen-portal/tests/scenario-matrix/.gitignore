@@ -1,0 +1,5 @@
+.generated/
+REPORT.md
+scenario-results.json
+scenario-findings.csv
+capacity-challenge-results.json

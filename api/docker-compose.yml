@@ -1,0 +1,576 @@
+services:
+
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
+  nexora-postgres:
+    image: postgres:17
+    container_name: nexora-postgres
+    # 2026-07-30 yük testinde tespit edildi (KRİTİK ALTYAPI BULGUSU): Docker'ın
+    # varsayılan /dev/shm boyutu sadece 64MB'dır. Ağır JOIN'li sorgular (örn.
+    # /reports/overview) 10-20 eşzamanlı istekte paralel hash join/sort
+    # operasyonları için /dev/shm'i (PostgreSQL bunu bazı paralel işlemlerde
+    # kullanır) doldurup "No space left on device" ile %70-90 oranında HTTP 500
+    # üretiyordu. Kök neden connection pool değildi. shm_size 1GB'a çıkarıldı.
+    shm_size: "1gb"
+    # max_connections yükseltildi (varsayılan 100 -> 500): 3 API instance'ın
+    # her biri kendi connection pool'unu (Vault: Maximum Pool Size) açar,
+    # üzerine izleme/migration/Hangfire/pgAdmin için baş boşluk bırakılır.
+    # 20K eşzamanlı HTTP isteği ≠ 20K eşzamanlı DB bağlantısı: her istek çok
+    # kısa süreli bağlantı kullanır (connection pooling), asıl darboğaz DB
+    # bağlantı sayısı değil API/Kestrel eşzamanlılığıdır — bu yüzden 500 yeterli.
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=500"
+      - "-c"
+      - "shared_buffers=2GB"
+      - "-c"
+      - "effective_cache_size=6GB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "max_wal_size=2GB"
+    environment:
+      POSTGRES_DB: nexora
+      POSTGRES_USER: nexora_admin
+      POSTGRES_PASSWORD: Nexora2026!
+    ports:
+      - "34100:5432"
+    volumes:
+      - nexora-postgres-data:/var/lib/postgresql/data
+    networks:
+      - nexora-network
+    restart: unless-stopped
+    # Task 14 (2026-09-07, deployment-security finding): no resource limits existed on any
+    # service before this change — a single runaway query/connection storm could exhaust
+    # host memory/CPU with no ceiling. Sized from the service's own shared_buffers=2GB +
+    # work_mem headroom (see comment above) plus room for OS page cache.
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 3g
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nexora_admin -d nexora"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ── Redis ────────────────────────────────────────────────────────────────────
+  nexora-redis:
+    image: redis:7-alpine
+    container_name: nexora-redis
+    command: redis-server --requirepass NexoraRedis2026!
+    ports:
+      - "34200:6379"
+    volumes:
+      - nexora-redis-data:/data
+    networks:
+      - nexora-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512m
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "NexoraRedis2026!", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ── Elasticsearch ────────────────────────────────────────────────────────────
+  nexora-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+    container_name: nexora-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms256m -Xmx512m
+    ports:
+      - "34300:9200"
+    volumes:
+      - nexora-elastic-data:/usr/share/elasticsearch/data
+    networks:
+      - nexora-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1g
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ── Kibana ───────────────────────────────────────────────────────────────────
+  nexora-kibana:
+    image: docker.elastic.co/kibana/kibana:8.17.0
+    container_name: nexora-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://nexora-elasticsearch:9200
+      - TELEMETRY_ENABLED=false
+    ports:
+      - "34400:5601"
+    depends_on:
+      nexora-elasticsearch:
+        condition: service_healthy
+    networks:
+      - nexora-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1g
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:5601/api/status || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  # ── MinIO (CDN / Object Storage) ─────────────────────────────────────────────
+  nexora-minio:
+    image: quay.io/minio/minio:latest
+    container_name: nexora-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: nexora_minio
+      MINIO_ROOT_PASSWORD: NexoraMinio2026!
+    ports:
+      - "34500:9000"   # S3 API
+      - "34501:9001"   # Web Console
+    volumes:
+      - nexora-minio-data:/data
+    networks:
+      - nexora-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1g
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD-SHELL", "mc ready local || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  # MinIO bucket init
+  nexora-minio-init:
+    image: quay.io/minio/mc:latest
+    container_name: nexora-minio-init
+    restart: "no"
+    depends_on:
+      nexora-minio:
+        condition: service_healthy
+    networks:
+      - nexora-network
+    entrypoint: >
+      /bin/sh -c "
+        mc alias set local http://nexora-minio:9000 nexora_minio NexoraMinio2026! &&
+        mc mb --ignore-existing local/nexora-public &&
+        mc mb --ignore-existing local/nexora-private &&
+        mc anonymous set download local/nexora-public &&
+        echo 'MinIO buckets ready'
+      "
+
+  # ── Consul ───────────────────────────────────────────────────────────────────
+  nexora-consul:
+    image: hashicorp/consul:1.20
+    container_name: nexora-consul
+    command: agent -server -bootstrap-expect=1 -ui -client=0.0.0.0 -datacenter=dc1
+    ports:
+      - "34600:8500"
+    volumes:
+      - nexora-consul-data:/consul/data
+    networks:
+      - nexora-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512m
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "consul", "members"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ── Vault ────────────────────────────────────────────────────────────────────
+  nexora-vault:
+    image: hashicorp/vault:1.18
+    container_name: nexora-vault
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: nexora-dev-root-token
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+      VAULT_ADDR: http://127.0.0.1:8200
+    ports:
+      - "34700:8200"
+    networks:
+      - nexora-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512m
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD-SHELL", "VAULT_ADDR=http://127.0.0.1:8200 vault status > /dev/null 2>&1 || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
+
+  # ── Vault seed ───────────────────────────────────────────────────────────────
+  # Vault dev-mode = bellekte çalışır, restart'ta tüm secret'lar sıfırlanır (bkz.
+  # scripts/vault/seed-secrets.sh üstündeki not — 2026-09-04 canlı kesinti kök
+  # nedeni). Bu servis Vault healthy olur olmaz gerekli secret'ları otomatik
+  # yeniden yazar. İzleyici Docker/Vault restart'ından sonra da çalışır;
+  # API instance'ları kategoriler hazır olduğunda service_healthy ile başlar.
+  nexora-vault-seed:
+    image: hashicorp/vault:1.18
+    container_name: nexora-vault-seed
+    entrypoint: ["sh", "/seed/watch-secrets.sh"]
+    environment:
+      VAULT_ADDR: http://nexora-vault:8200
+      VAULT_TOKEN: nexora-dev-root-token
+      # 2026-09-07 bulgusu: seed-secrets.sh güvenlik gereği DB/Redis parolalarını artık
+      # ortam değişkeninden bekliyor (${POSTGRES_PASSWORD:?...}), ama bu servise hiç
+      # geçirilmiyordu — seed "POSTGRES_PASSWORD is required" ile kod 2 vererek düşüyor,
+      # Vault boş kalıyor ve 3 API instance'ı JwtSettings:SecretKey bulunamadığı için
+      # crash-loop'a giriyordu. Değerler postgres/redis servisleriyle AYNI kaynaktan
+      # gelir; prod'da .env ile override edilir.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Nexora2026!}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-NexoraRedis2026!}
+      # 2026-09-20: aynı desen — CorporateApi kimlik bilgileri de bu servise
+      # geçirilmiyordu, seed script varsayılana (gerçek base URL, VPN arkası) düşüyordu.
+      # Bu makinede VPN'e host.docker.internal relay'i üzerinden erişildiğinde
+      # .env'deki CORPORATE_API_BASE_URL (relay portlu) burada override etmeli.
+      CORPORATE_API_BASE_URL: ${CORPORATE_API_BASE_URL:-}
+      CORPORATE_API_CLIENT_ID: ${CORPORATE_API_CLIENT_ID:-}
+      CORPORATE_API_CLIENT_SECRET: ${CORPORATE_API_CLIENT_SECRET:-}
+      # 2026-09-22 bulgusu: aynı desen — NVİ (Nüfus ve Vatandaşlık İşleri) kütük servisi
+      # kimlik bilgileri de bu servise hiç geçirilmiyordu, seed script boşa düşüyordu.
+      # appsettings.Production.json Nvi:UseMockMode=false olduğu için (kasıtlı: prod'da
+      # sahte NVİ verisiyle gerçek vatandaş hesabı açılmasın diye) bu boşluk yetişkin VE
+      # çocuk kütük sorgusunun (kayıt, giriş, NVİ'den Yenile) tamamen başarısız olmasına
+      # yol açıyordu. Host .env'ine NVI_USERNAME=... / NVI_PASSWORD=... eklenip
+      # `docker compose up -d --force-recreate nexora-api-1 nexora-api-2 nexora-api-3`
+      # çalıştırıldığında etkin olur.
+      NVI_USERNAME: ${NVI_USERNAME:-}
+      NVI_PASSWORD: ${NVI_PASSWORD:-}
+    volumes:
+      - ./scripts/vault:/seed:ro
+      - vault-seed-state:/vault-seed-state
+    networks:
+      - nexora-network
+    depends_on:
+      nexora-vault:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "sh", "/seed/watch-secrets.sh", "--check"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ── Nexora API — yatay ölçeklenebilir instance'lar ──────────────────────────
+  # KAPASİTE NOTU (20K eşzamanlı istek hedefi): tek Kestrel instance'ının pratik
+  # eşzamanlılık tavanı vardır (thread pool + Kestrel connection limiti); bunu
+  # aşmanın yolu dikey değil YATAY ölçeklemedir. Burada 3 instance + nginx
+  # round-robin load balancer tanımlanıyor. Her instance appsettings.Kestrel
+  # ayarına göre ~8000 eşzamanlı bağlantı kaldırabilir (bkz. Program.cs), yani
+  # 3 instance ≈ 24000 eşzamanlı bağlantı kapasitesi — 20K hedefinin üzerinde
+  # bir güvenlik payı bırakır. İhtiyaç halinde `nexora-api-N` bloklarını
+  # çoğaltıp nginx upstream'e eklemek yeterlidir (durum bilgisi olmayan API,
+  # JWT + Redis-backed SignalR sayesinde instance'lar arası yapışkan oturum
+  # gerektirmez).
+  nexora-api-1: &nexora-api-template
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Örn: GIT_SHA=$(git rev-parse --short HEAD) docker compose build nexora-api-1
+        GIT_SHA: ${GIT_SHA:-unknown}
+    # Task 14 (2026-09-07, deployment-security finding): was the mutable tag
+    # "nexora-api:latest" with no mechanism pinning a specific verified build to what
+    # actually runs. NEXORA_API_IMAGE_TAG (defaulting to "latest" for local/dev
+    # docker-compose parity) lets a real release pipeline pass a content-addressed value
+    # (a git-commit-SHA tag, or ideally a registry digest such as
+    # "nexora-api@sha256:...") at `docker compose build`/`up` time — this repo has no
+    # container registry configured, so a true immutable digest cannot be produced or
+    # verified from within this repo alone; the env-var override is the safe, in-scope
+    # mechanism this task can add. STILL OPEN: a registry + CI pipeline that builds,
+    # pushes, and pins by digest is real remaining work outside this repo's declared
+    # Files list — see task-14-report.md.
+    image: "nexora-api:${NEXORA_API_IMAGE_TAG:-latest}"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      # Yerel Compose üretim kontrollerini kullanır; SMS mock modu açılışı engeller.
+      SmsSettings__UseMockMode: "false"
+      LibraryAccess__UseTemplateEngine: "true"
+      LibraryAccess__FullBreakLibraryIds__0: "76a4aa3d-cb51-4b23-be2c-53925093bd5d"
+      LibraryAccess__FullBreakLibraryIds__1: "15ee077b-99bd-4873-b3ff-a63d8330c351"
+      LocationValidation__DefaultRadiusMeters: "150"
+      ASPNETCORE_URLS: http://+:34000
+      Consul__EnableServiceDiscovery: "true"
+      Consul__Address: http://nexora-consul:8500
+      Consul__ServiceId: nexora-api-prod-1
+      Consul__ServiceHost: nexora-api-1
+      Consul__ServicePort: 34000
+      Vault__Enabled: "true"
+      Vault__Address: http://nexora-vault:8200
+      Vault__Token: nexora-dev-root-token
+      Vault__SecretPath: nexora/api/production
+      # 2026-09-18 bulgusu: yerel Docker "Production" modunda AllowedOrigins boştu,
+      # Program.cs güvenlik gereği tüm cross-origin istekleri reddediyordu —
+      # admin-panel (3000), citizen-portal (3100) ve public-portal (3200) dev
+      # sunucularından gelen istekler tarayıcıda "Sunucuya bağlanılamadı" olarak
+      # görünüyordu (CORS reddi network hatası gibi raporlanır).
+      CorsSettings__AllowedOrigins__0: http://localhost:3000
+      CorsSettings__AllowedOrigins__1: http://localhost:3100
+      CorsSettings__AllowedOrigins__2: http://localhost:3200
+      CorsSettings__AllowedOrigins__3: capacitor://localhost
+      CorsSettings__AllowedOrigins__4: https://localhost
+      CorsSettings__AllowedOrigins__5: http://localhost
+      CorsSettings__AllowedOrigins__6: http://192.168.1.2:3000
+      CorsSettings__AllowedOrigins__7: http://192.168.1.2:3100
+      CorsSettings__AllowedOrigins__8: http://192.168.1.2:3200
+      CorsSettings__AllowedOrigins__9: http://192.168.1.2:34000
+      CorsSettings__AllowedOrigins__10: http://localhost:3005
+      # 2026-09-18: yerel geliştirmede SMS/e-posta gerçekten gitmediği için (Vault'ta
+      # kimlik bilgisi yok) OTP kodunu sabitliyoruz — sadece bu docker-compose dev
+      # ortamında geçerli, appsettings.Production.json'a (gerçek prod) dokunulmadı.
+      OtpSettings__MockCode: "111111"
+      LocalDockerDev__AllowMockOtp: "true"
+      # 2026-09-19: MinIO bu compose'da TLS'siz calisiyor (server /data, init "mc alias
+      # set local http://nexora-minio:9000"). UseSSL=true iken .NET SDK PutObject
+      # SESSIZCE basarili donup hicbir sey yazmiyordu -> yuklenen gorseller kalici 404.
+      MinioSettings__UseSSL: "false"
+      # GEÇİCİ (yalnızca bu makine, VPN arkası): AFAD GIS (webgis.sultangazi.bel.tr) host'taki
+      # socat relay'ine gider: socat TCP-LISTEN:18444,fork,reuseaddr TCP:webgis.sultangazi.bel.tr:443
+      # Gerçek sunucu iç ağda olduğundan prod'da bu iki satır gerekmez.
+      AfadGis__BaseUrl: https://webgis.sultangazi.bel.tr:18444/BELNET
+      AfadGis__ResolveIp: "192.168.65.254"
+    # GEÇİCİ (yalnızca bu makine, VPN arkası kurumsal API testi): host.docker.internal
+    # üzerinden host'ta çalışan bir TCP relay'e (socat 18443 -> sultangazi.bel.tr:443)
+    # yönlendirmek için sultangazi.bel.tr'yi container içinde host'a çözer. Docker
+    # Desktop VM'i macOS VPN tünelini (utun) paylaşmadığı için container'lar
+    # kurumsal API'nin gerçek IP'sine (VPN arkası) doğrudan ulaşamıyor; host makine
+    # ulaşabiliyor. CorporateApi:BaseUrl Vault'ta https://sultangazi.bel.tr:18443/api/v2
+    # olarak ayarlandığında bu satır olmadan bağlantı timeout olur.
+    extra_hosts:
+      - "sultangazi.bel.tr:192.168.65.254"
+    networks:
+      - nexora-network
+    restart: unless-stopped
+    depends_on:
+      nexora-postgres:
+        condition: service_healthy
+      nexora-redis:
+        condition: service_healthy
+      nexora-vault:
+        condition: service_healthy
+      nexora-vault-seed:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1g
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:34000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
+
+  nexora-api-2:
+    <<: *nexora-api-template
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      SmsSettings__UseMockMode: "false"
+      LibraryAccess__UseTemplateEngine: "true"
+      LibraryAccess__FullBreakLibraryIds__0: "76a4aa3d-cb51-4b23-be2c-53925093bd5d"
+      LibraryAccess__FullBreakLibraryIds__1: "15ee077b-99bd-4873-b3ff-a63d8330c351"
+      LocationValidation__DefaultRadiusMeters: "150"
+      ASPNETCORE_URLS: http://+:34000
+      Consul__EnableServiceDiscovery: "true"
+      Consul__Address: http://nexora-consul:8500
+      Consul__ServiceId: nexora-api-prod-2
+      AfadGis__BaseUrl: https://webgis.sultangazi.bel.tr:18444/BELNET
+      AfadGis__ResolveIp: "192.168.65.254"
+      Consul__ServiceHost: nexora-api-2
+      Consul__ServicePort: 34000
+      Vault__Enabled: "true"
+      Vault__Address: http://nexora-vault:8200
+      Vault__Token: nexora-dev-root-token
+      Vault__SecretPath: nexora/api/production
+      CorsSettings__AllowedOrigins__0: http://localhost:3000
+      CorsSettings__AllowedOrigins__1: http://localhost:3100
+      CorsSettings__AllowedOrigins__2: http://localhost:3200
+      CorsSettings__AllowedOrigins__3: capacitor://localhost
+      CorsSettings__AllowedOrigins__4: https://localhost
+      CorsSettings__AllowedOrigins__5: http://localhost
+      CorsSettings__AllowedOrigins__6: http://192.168.1.2:3000
+      CorsSettings__AllowedOrigins__7: http://192.168.1.2:3100
+      CorsSettings__AllowedOrigins__8: http://192.168.1.2:3200
+      CorsSettings__AllowedOrigins__9: http://192.168.1.2:34000
+      CorsSettings__AllowedOrigins__10: http://localhost:3005
+      # 2026-09-18: yerel geliştirmede SMS/e-posta gerçekten gitmediği için (Vault'ta
+      # kimlik bilgisi yok) OTP kodunu sabitliyoruz — sadece bu docker-compose dev
+      # ortamında geçerli, appsettings.Production.json'a (gerçek prod) dokunulmadı.
+      OtpSettings__MockCode: "111111"
+      LocalDockerDev__AllowMockOtp: "true"
+      # 2026-09-19: MinIO bu compose'da TLS'siz calisiyor (server /data, init "mc alias
+      # set local http://nexora-minio:9000"). UseSSL=true iken .NET SDK PutObject
+      # SESSIZCE basarili donup hicbir sey yazmiyordu -> yuklenen gorseller kalici 404.
+      MinioSettings__UseSSL: "false"
+
+  nexora-api-3:
+    <<: *nexora-api-template
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      SmsSettings__UseMockMode: "false"
+      LibraryAccess__UseTemplateEngine: "true"
+      LibraryAccess__FullBreakLibraryIds__0: "76a4aa3d-cb51-4b23-be2c-53925093bd5d"
+      LibraryAccess__FullBreakLibraryIds__1: "15ee077b-99bd-4873-b3ff-a63d8330c351"
+      LocationValidation__DefaultRadiusMeters: "150"
+      ASPNETCORE_URLS: http://+:34000
+      Consul__EnableServiceDiscovery: "true"
+      Consul__Address: http://nexora-consul:8500
+      Consul__ServiceId: nexora-api-prod-3
+      AfadGis__BaseUrl: https://webgis.sultangazi.bel.tr:18444/BELNET
+      AfadGis__ResolveIp: "192.168.65.254"
+      Consul__ServiceHost: nexora-api-3
+      Consul__ServicePort: 34000
+      Vault__Enabled: "true"
+      Vault__Address: http://nexora-vault:8200
+      Vault__Token: nexora-dev-root-token
+      Vault__SecretPath: nexora/api/production
+      CorsSettings__AllowedOrigins__0: http://localhost:3000
+      CorsSettings__AllowedOrigins__1: http://localhost:3100
+      CorsSettings__AllowedOrigins__2: http://localhost:3200
+      CorsSettings__AllowedOrigins__3: capacitor://localhost
+      CorsSettings__AllowedOrigins__4: https://localhost
+      CorsSettings__AllowedOrigins__5: http://localhost
+      CorsSettings__AllowedOrigins__6: http://192.168.1.2:3000
+      CorsSettings__AllowedOrigins__7: http://192.168.1.2:3100
+      CorsSettings__AllowedOrigins__8: http://192.168.1.2:3200
+      CorsSettings__AllowedOrigins__9: http://192.168.1.2:34000
+      CorsSettings__AllowedOrigins__10: http://localhost:3005
+      # 2026-09-18: yerel geliştirmede SMS/e-posta gerçekten gitmediği için (Vault'ta
+      # kimlik bilgisi yok) OTP kodunu sabitliyoruz — sadece bu docker-compose dev
+      # ortamında geçerli, appsettings.Production.json'a (gerçek prod) dokunulmadı.
+      OtpSettings__MockCode: "111111"
+      LocalDockerDev__AllowMockOtp: "true"
+      # 2026-09-19: MinIO bu compose'da TLS'siz calisiyor (server /data, init "mc alias
+      # set local http://nexora-minio:9000"). UseSSL=true iken .NET SDK PutObject
+      # SESSIZCE basarili donup hicbir sey yazmiyordu -> yuklenen gorseller kalici 404.
+      MinioSettings__UseSSL: "false"
+
+  # ── nginx — load balancer / reverse proxy ───────────────────────────────────
+  nexora-lb:
+    image: nginx:1.27-alpine
+    container_name: nexora-lb
+    ports:
+      - "34000:80"
+    volumes:
+      - ./nginx-lb.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - nexora-api-1
+      - nexora-api-2
+      - nexora-api-3
+    networks:
+      - nexora-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
+    healthcheck:
+      # NOT: wget container-içi loopback'te bazen yanlış "connection refused"
+      # bildirebiliyor (BusyBox wget IPv6/IPv4 tercih sırası davranışı);
+      # nginx'in dış trafiğe verdiği gerçek yanıt (host:34000/health) ayrıca
+      # doğrulanmıştır ve sağlıklıdır. curl daha güvenilir/açık davranır.
+      test: ["CMD", "curl", "-f", "http://127.0.0.1/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  nexora-postgres-data:
+  nexora-redis-data:
+  nexora-elastic-data:
+  nexora-minio-data:
+  nexora-consul-data:
+  vault-seed-state:
+
+networks:
+  nexora-network:
+    driver: bridge

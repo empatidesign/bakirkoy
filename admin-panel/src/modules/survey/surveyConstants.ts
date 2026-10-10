@@ -1,0 +1,71 @@
+import type {
+  Survey,
+  SurveyForm,
+  SurveyQuestion,
+  SurveyQuestionForm,
+} from '@/types/survey.types'
+
+export const todayIso = () => new Date().toISOString().split('T')[0]
+
+export const emptySurveyForm = (): SurveyForm => ({
+  title: '',
+  description: '',
+  category: '',
+  targetAudience: 'all',
+  startDate: '',
+  endDate: '',
+  estimatedDuration: 5,
+  isActive: true,
+  isAnonymous: false,
+  allowMultipleResponses: false,
+  showResults: true,
+  autoSendAfterEvent: false,
+  sendReminderSMS: false,
+  isRequired: false,
+  sourceType: null,
+  sourceId: null,
+  questions: [],
+  surveyType: 'standard',
+  identityMode: 'identified',
+  topic: '',
+  targetNeighborhoods: [],
+  targetResponseCount: 0,
+  fieldEnabled: false,
+  requireLocation: false,
+})
+
+export const surveyToForm = (r: Survey): SurveyForm => ({
+  title: r.title,
+  description: r.description,
+  category: r.category,
+  targetAudience: r.targetAudience,
+  startDate: r.startDate ? r.startDate.split('T')[0] : '',
+  endDate: r.endDate ? r.endDate.split('T')[0] : '',
+  estimatedDuration: r.estimatedDuration,
+  isActive: r.isActive,
+  isAnonymous: r.isAnonymous,
+  allowMultipleResponses: r.allowMultipleResponses,
+  showResults: r.showResults,
+  autoSendAfterEvent: r.autoSendAfterEvent,
+  sendReminderSMS: r.sendReminderSMS,
+  isRequired: r.isRequired,
+  sourceType: r.sourceType ?? null,
+  sourceId: r.sourceId ?? null,
+  questions: [],
+  surveyType: r.surveyType ?? 'standard',
+  identityMode: r.identityMode ?? 'identified',
+  topic: r.topic ?? '',
+  targetNeighborhoods: r.targetNeighborhoods ?? [],
+  targetResponseCount: r.targetResponseCount ?? 0,
+  fieldEnabled: r.fieldEnabled ?? false,
+  requireLocation: r.requireLocation ?? false,
+})
+
+export const questionToForm = (q: SurveyQuestion): SurveyQuestionForm => ({
+  type: q.type,
+  question: q.question,
+  description: q.description ?? '',
+  required: q.required,
+  options: [...(q.options ?? [])],
+  config: { ...(q.config ?? {}) },
+})

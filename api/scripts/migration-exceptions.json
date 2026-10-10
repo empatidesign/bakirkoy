@@ -1,0 +1,177 @@
+[
+  {
+    "migrationId": "20260620120305_AddParticipantDistrict",
+    "reason": "History stamp from a pre-restructure era migration file. The current source tree implements the equivalent Participant.District column via 20260622000701_AddEventResidenceAndParticipantDistrict.cs (verified: same column, present in the fresh empty-DB MigrateAsync schema). The original file was superseded/renamed during development and deleted from the tree without a corresponding __EFMigrationsHistory cleanup on the long-lived dev database. Confirmed non-blocking: the fresh empty-DB MigrateAsync experiment (Task 14, 2026-09-07) reproduces an AdminUsers/Roles/Permissions/RolePermissions/Departments/PermissionModules schema byte-identical to the real dev database, and Participants.District exists in both.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260620164253_AddEventSultangaziResidentOnly",
+    "reason": "History stamp from a pre-restructure era migration file. The current source tree implements the equivalent SultangaziResidentOnly column via 20260620105511_AddTravelSultangaziResidentOnly.cs and 20260622000701_AddEventResidenceAndParticipantDistrict.cs (verified present in fresh empty-DB schema). Superseded/renamed during development; file deleted from tree without a corresponding history cleanup on the long-lived dev database.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260620195508_AddFacilityGroupParentGroupId",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by a later consolidated FacilityGroup migration in the current tree. FacilityGroups schema verified present and structurally consistent in the fresh empty-DB MigrateAsync experiment (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260620203335_AddFacilityGroupPeriodAndApplication",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by a later consolidated FacilityGroup migration in the current tree. Verified schema-equivalent in the fresh empty-DB MigrateAsync experiment (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260626005024_AddMobileMenu",
+    "reason": "History stamp from a pre-restructure era migration file. The current source tree creates MobileMenuBanners/MobileMenuItems via the consolidated 20260628153800_AddLoyaltyEducationMenuQrModules.cs. Verified: MobileMenuBanners and MobileMenuItems both present, structurally identical, in the fresh empty-DB MigrateAsync schema versus the real dev database (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260627101737_AddAppMenu",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by the consolidated 20260628153800_AddLoyaltyEducationMenuQrModules.cs (creates TopMenuItems/MenuSections). Verified present and structurally identical in the fresh empty-DB MigrateAsync schema (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260627104329_AddMenuItemMobileFields",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by the consolidated 20260628153800_AddLoyaltyEducationMenuQrModules.cs. Verified schema-equivalent in the fresh empty-DB MigrateAsync experiment (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260627110742_AddMenuSectionVisibility",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by the consolidated 20260628153800_AddLoyaltyEducationMenuQrModules.cs (creates MenuSections). Verified present and structurally identical in the fresh empty-DB MigrateAsync schema (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260627110742_AddMenuSectionVisibility.Designer",
+    "reason": "Companion Designer-file artifact of the reconciled 20260627110742_AddMenuSectionVisibility stamp above; the raw __EFMigrationsHistory query in this script's Part 1 does not filter Designer suffixes out of unexpected stray history rows, so this is listed defensively. Same justification as the base migration ID.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260627141821_AddLoyaltySystem",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by the consolidated 20260628153800_AddLoyaltyEducationMenuQrModules.cs (creates LoyaltyRules/LoyaltyTransactions/Rewards/RewardRedemptions). Verified present and structurally identical in the fresh empty-DB MigrateAsync schema (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260627144149_AddRewardsSystem",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by the consolidated 20260628153800_AddLoyaltyEducationMenuQrModules.cs. Verified schema-equivalent in the fresh empty-DB MigrateAsync experiment (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260627160253_AddEducationModule",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by the consolidated 20260628153800_AddLoyaltyEducationMenuQrModules.cs (creates EducationInstitutions/EducationHistories). Verified present and structurally identical in the fresh empty-DB MigrateAsync schema (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260628061513_AddQrSystem",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by the consolidated 20260628153800_AddLoyaltyEducationMenuQrModules.cs (creates CompanyQrCodes). Verified present and structurally identical in the fresh empty-DB MigrateAsync schema (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260628074638_AddNotificationMetadata",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by consolidation in the current tree. No missing Notification-related columns found versus the fresh empty-DB MigrateAsync schema (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260628075618_AddParticipantAdminNotes",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by consolidation in the current tree. No missing Participant admin-notes columns found versus the fresh empty-DB MigrateAsync schema (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260628080922_AddRewardRedemptionStatusFields",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by the consolidated 20260628153800_AddLoyaltyEducationMenuQrModules.cs (RewardRedemptions status fields verified present). Task 14, 2026-09-07.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260628094410_AddTopMenuItems",
+    "reason": "History stamp from a pre-restructure era migration file, superseded by the consolidated 20260628153800_AddLoyaltyEducationMenuQrModules.cs (creates TopMenuItems). Verified present and structurally identical in the fresh empty-DB MigrateAsync schema (Task 14, 2026-09-07).",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260731105630_AddVeterinaryAndScholarshipModules",
+    "reason": "REAL, DISTINCT FINDING (not a superseded-rename case like the others above): this migration created Animals/AnimalAdoptionApplications/ScholarshipApplications/ScholarshipPeriods/ScholarshipSettings tables, which exist in the real dev database TODAY but have NO corresponding DbSet/entity anywhere in the current Nexora.Domain/Nexora.Infrastructure source tree (grep for Ambulance/Scholarship/Animal in AppDbContext.cs returns zero matches) and are absent from AppDbContextModelSnapshot.cs. These are orphan tables from a removed/reverted feature whose migration file and EF model were deleted from source but whose real dev-database tables and history stamps were never cleaned up. This is NOT a missing-baseline-migration defect (the current EF model does not expect these tables to exist) — it is real, reportable schema drift/orphan-table debt, out of this task's declared scope to clean up (no Files-list authorization to drop production tables), and is called out explicitly in task-14-report.md as a distinct finding requiring a future dedicated cleanup task.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260731130821_EnrichVeterinaryPetvetFields",
+    "reason": "Same orphan-table family as 20260731105630_AddVeterinaryAndScholarshipModules above (Animals table enrichment). See that entry's full justification.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260731144830_AddAmbulanceModule",
+    "reason": "Same orphan-table family: creates AmbulanceRequests/AmbulanceVehicles/AmbulanceAvailabilityWindows, which exist in the real dev database today but have no corresponding entity/DbSet in the current source tree. See 20260731105630_AddVeterinaryAndScholarshipModules's full justification; same removed-feature orphan-table class.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260731152355_AddAmbulanceDateOverrides",
+    "reason": "Same orphan-table family (AmbulanceDateOverrides). See 20260731144830_AddAmbulanceModule's justification.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260731160148_AddAmbulancePreApplications",
+    "reason": "Same orphan-table family (AmbulancePreApplications). See 20260731144830_AddAmbulanceModule's justification.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260731190854_AddAmbulanceDriverPhoto",
+    "reason": "Same orphan-table family (AmbulanceVehicles driver-photo column). See 20260731144830_AddAmbulanceModule's justification.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260731202539_AddAmbulanceReminderFields",
+    "reason": "Same orphan-table family (AmbulanceRequests reminder columns). See 20260731144830_AddAmbulanceModule's justification.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  },
+  {
+    "migrationId": "20260901154459_AddSurveyUserScopeAndInterviewerType",
+    "reason": "Real regenerate-with-same-name event: the history stamp has timestamp 20260901154459 but the current source file for the identically-named migration is 20260901161356_AddSurveyUserScopeAndInterviewerType.cs (verified: same class name, ~7 minutes later timestamp). The AdminUsers survey-scope columns (IsSurveyUser, SurveyAllNeighborhoods, etc.) this migration adds are confirmed present and structurally identical between the real dev database and the fresh empty-DB MigrateAsync schema (Task 14, 2026-09-07), so this is a benign regenerate/rename, not a missing-content defect.",
+    "owner": "task-14",
+    "dateReconciled": "2026-09-07",
+    "expiryDate": "2026-12-07"
+  }
+]

@@ -1,0 +1,31 @@
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+ARG TARGETARCH
+WORKDIR /src
+
+COPY ["src/", "./"]
+
+RUN ARCH=$(echo "$TARGETARCH" | sed 's/amd64/x64/') && \
+    dotnet publish "Nexora.Api/Nexora.Api.csproj" \
+    -c Release \
+    -o /app/publish \
+    -a "$ARCH"
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends libicu-dev tzdata curl libkrb5-3 && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
+    ASPNETCORE_URLS=http://+:34000 \
+    TZ=Europe/Istanbul
+
+WORKDIR /app
+COPY --from=build /app/publish .
+
+EXPOSE 34000
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:34000/health || exit 1
+
+ENTRYPOINT ["dotnet", "Nexora.Api.dll"]

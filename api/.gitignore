@@ -1,0 +1,76 @@
+## .NET
+bin/
+obj/
+*.user
+.vs/
+.idea/
+*.suo
+*.userprefs
+.vscode/
+
+## dotnet publish
+publish/
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Logs
+*.log
+logs/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Secrets — production/staging credentials never in source control
+appsettings.Staging.json
+appsettings.Production.local.json
+appsettings.*.local.json
+appsettings.local.json
+**/secrets.json
+## Backup / editor scratch files that may leak secrets
+*.bak
+*.orig
+*.tmp
+appsettings.*.json.bak
+
+## Docker volumes (local)
+nexora-postgres-data/
+nexora-redis-data/
+nexora-elastic-data/
+nexora-minio-data/
+nexora-consul-data/
+
+## EF migrations (keep in source control — only temp output excluded)
+!**/Migrations/
+
+## Test results
+TestResults/
+*.trx
+coverage/
+
+# SQL dump (asla commit edilmez) — kişisel veri ve şifre hash'i içerir.
+# Kalıplar geniş tutuldu: tarih/isim varyasyonları elden kaçmasın.
+*.sql
+*.sql.gz
+*.dump
+*.dump.gz
+*.backup
+*.pgsql
+# Elle yazılan bakım/onarım script'leri veri içermez, commit edilebilir.
+!scripts/**/*.sql
+
+# Firebase service account (FCM) — gizli anahtar, asla commit edilmez
+service-account.json
+**/service-account.json
+.worktrees/
+
+# Yerel sır dosyaları — asla commit edilmemeli
+.env
+.env.local
+.env.*.local

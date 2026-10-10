@@ -1,0 +1,318 @@
+/* Metronic-inspired pilot: scoped to Sports and its settings, pending approval. */
+.facility-ui-pilot {
+  --primary: 215 85% 43%; --primary-soft: 214 100% 97%;
+  --foreground-default: 222 24% 24%; --foreground-strong: 222 33% 17%;
+  --foreground-muted: 215 16% 38%; --foreground-subtle: 215 16% 38%;
+  --info: 204 86% 33%; --success: 158 79% 27%; --warning: 30 91% 31%; --danger: 0 72% 42%;
+  --border: 214 24% 87%; --input-bg: 0 0% 100%;
+  --control-h: 44px; --control-h-sm: 40px;
+  --text-xs: 0.8125rem; --text-sm: 0.875rem; --text-base: 0.875rem;
+  color: #263247; font-size: 14px; line-height: 1.5; min-width: 0;
+}
+.facility-ui-pilot :where(button, input, select, textarea, a):focus-visible {
+  outline: 2px solid #155bd7; outline-offset: 3px; box-shadow: none;
+}
+.facility-ui-pilot :where(button, input, select, textarea) { font: inherit; }
+.facility-ui-pilot :where(button:not([role="checkbox"]):not([role="switch"]), input:not([type="checkbox"]), select) { min-height: 44px; }
+.facility-ui-pilot :where(button:not([role="checkbox"])) { border-radius: 8px; font-size: 13px; }
+.pilot-overview [data-table-root] > div:first-child button:not([role="checkbox"]):not([aria-pressed]) { min-height: 36px; height: 36px; padding-inline: 12px; font-size: 12.5px; font-weight: 600; }
+.facility-ui-pilot :where(button:disabled) { cursor: not-allowed; opacity: .55; }
+.facility-ui-pilot :where(svg.lucide) { width: 18px; height: 18px; flex-shrink: 0; stroke-width: 1.75; }
+.facility-ui-pilot label { font-size: 13px; line-height: 1.5; text-transform: none; letter-spacing: normal; color: #344054; }
+.facility-ui-pilot :where(.type-caption, .type-muted, .type-section-sub) { font-size: 12px; line-height: 1.6; color: #536175; }
+.facility-ui-pilot :where(.type-body, .type-body-strong, .type-section) { font-size: 14px; line-height: 1.5; }
+/* Kullanıcı isteği (2026-10-01): "spor bölümünde checkbox çok büyük, genel standarda uygun hale
+ * getir" — pilot'a özel 24px checkbox override'ı kaldırıldı; artık diğer tüm modüllerle aynı
+ * standart Checkbox bileşen boyutunu (16px / h-4 w-4) kullanıyor. Doluluk oranı hesaplamalarına
+ * dokunulmadı. */
+.facility-ui-pilot [role="switch"] { width: 44px; height: 26px; border-radius: 20px; position: relative; }
+.facility-ui-pilot [role="switch"]::after { content: ''; position: absolute; inset: -9px 0; }
+.facility-ui-pilot [role="switch"] > span { width: 20px; height: 20px; background: white; }
+.facility-ui-pilot [role="switch"][aria-checked="true"] > span { transform: translateX(20px); }
+.facility-ui-pilot [role="switch"][aria-checked="false"] > span { transform: translateX(2px); }
+.facility-ui-pilot [role="switch"][aria-checked="false"] { background: #697586; border-color: #697586; }
+.pilot-page-header { padding: 24px; background: #fff; border-bottom: 1px solid #d6deea; flex-shrink: 0; }
+.pilot-breadcrumb { margin: 0 0 10px; color: #536175; font-size: 12px; }
+.pilot-header-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
+.pilot-header-identity { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1 1 280px; }
+.pilot-heading-icon { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex-shrink: 0; background: #eff6ff; border: 1px solid #dbeafe; border-radius: 10px; color: #155bd7; }
+.pilot-title { font-size: 20px; font-weight: 650; line-height: 1.4; color: #172b4d; margin: 0; overflow-wrap: anywhere; }
+.pilot-muted { color: #536175; font-size: 13px; margin-top: 3px; }
+.pilot-header-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.pilot-facility-select { display: grid; gap: 5px; min-width: 0; width: 220px; }
+.pilot-header-toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; justify-content: flex-start; margin-top: 20px; }
+.pilot-header-actions button { font-size: 12.5px; font-weight: 500; padding-inline: 11px; min-height: 38px; height: 38px; background: white; color: #344054; border: 1px solid #cbd5e1; box-shadow: none; }
+.pilot-header-actions button[data-action="settings"] { background: #155bd7; border-color: #155bd7; color: white; }
+.pilot-header-actions button:hover { background: #eff6ff; color: #1446a0; }
+.pilot-header-actions button[data-action="settings"]:hover { background: #124bae; color: white; }
+.pilot-content { padding: 24px; min-width: 0; }
+.pilot-stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; }
+.pilot-stat-card { background: white; border: 1px solid #d6deea; border-radius: 12px; padding: 20px; box-shadow: 0 2px 3px #0f172a03; }
+.pilot-stat-card .pilot-stat-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.pilot-stat-value { font-size: 28px; line-height: 1.25; font-weight: 650; letter-spacing: -.5px; color: #172b4d; font-variant-numeric: tabular-nums; }
+.pilot-stat-label { font-size: 13px; font-weight: 600; margin-top: 6px; color: #344054; }
+.pilot-stat-note { font-size: 12px; color: #536175; margin-top: 3px; }
+.facility-ui-pilot table { font-size: 12px; }
+.facility-ui-pilot table th { font-size: 10px; padding-block: 12px; padding-inline: 8px; }
+.facility-ui-pilot table td { font-size: 12px; line-height: 1.4; padding-block: 8px; padding-inline: 8px; }
+.facility-ui-pilot table td :is(.type-body, .type-body-strong, .type-muted, .type-section, .text-sm, .text-base) { font-size: 12px; line-height: 1.4; }
+.facility-ui-pilot table td :is(.type-caption, .type-section-sub) { font-size: 11px; }
+.facility-ui-pilot table :is(th, td):has(> [role="checkbox"]) { padding-left: 15px; }
+.facility-ui-pilot :where(td button) { white-space: normal; }
+.facility-ui-pilot [data-table-body] td button:not([role="checkbox"]):not(:has(> svg:only-child)) { min-height: 0; }
+.facility-settings-dialog { position: fixed; inset: 0 0 0 auto; width: min(720px, 100vw); display: flex; flex-direction: column; overflow: hidden; background: #f8fafc; border-left: 1px solid #d6deea; box-shadow: 0 24px 64px #0f172a33; z-index: 60; }
+.pilot-dialog-header { display: flex; align-items: center; gap: 12px; padding: 22px 24px; background: white; border-bottom: 1px solid #d6deea; flex-shrink: 0; }
+.pilot-icon-button { width: 44px; padding: 0 !important; flex-shrink: 0; }
+.pilot-settings-tabs { display: flex; gap: 24px; padding: 0 24px; background: white; border-bottom: 1px solid #d6deea; flex-shrink: 0; }
+.pilot-settings-tabs button { display: flex; align-items: center; gap: 8px; border-radius: 0; padding: 14px 0; border-bottom: 2px solid transparent; font-size: 13px; color: #536175; }
+.pilot-settings-tabs button[aria-selected="true"] { color: #155bd7; border-bottom-color: #155bd7; font-weight: 600; }
+.pilot-settings-body { flex: 1; min-height: 0; overflow: auto; padding: 24px; scroll-padding: 16px; }
+.pilot-settings-footer { padding: 16px 24px; flex-shrink: 0; background: white; border-top: 1px solid #d6deea; }
+.pilot-settings-body :where(.grid) { min-width: 0; }
+.pilot-settings-body :where(.grid > *) { min-width: 0; }
+.pilot-settings-body :where(.rounded-card) { border-radius: 12px; }
+.pilot-settings-body :where(h3) { font-size: 15px; }
+.pilot-mobile-list { display: none; }
+.pilot-page-shell { container-type: inline-size; }
+@container (max-width: 760px) {
+ .pilot-stat-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+ .pilot-desktop-table { display: none; }
+ .pilot-mobile-list { display: grid; gap: 12px; }
+}
+@media (max-width: 767px) {
+ .pilot-page-header, .pilot-content { padding: 16px; }
+ .pilot-title { font-size: 18px; }
+ .pilot-facility-select { width: 100%; }
+ .pilot-stat-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+ .pilot-stat-card { padding: 16px; }
+ .pilot-stat-value { font-size: 24px; }
+ .facility-settings-dialog { inset: 0; width: 100%; height: 100dvh; border-radius: 0; border: 0; }
+ .pilot-dialog-header { padding: 16px; }
+ .pilot-settings-tabs { padding-inline: 16px; gap: 16px; }
+ .pilot-settings-tabs button { font-size: 12px; }
+ .pilot-settings-body { padding: 16px; }
+ .pilot-settings-body .grid { grid-template-columns: minmax(0,1fr) !important; }
+ .pilot-settings-body .grid > * { grid-column: auto !important; }
+ .pilot-settings-footer { padding: 12px 16px max(12px,env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+ .facility-ui-pilot *, .facility-ui-pilot *::before, .facility-ui-pilot *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+.pilot-app-shell { height: 100dvh; --success: 158 79% 27%; }
+.pilot-mobile-nav-bar { display: none; }
+.pilot-navigation-dialog, .pilot-team-dialog { position: fixed; inset: 0 auto 0 0; z-index: 60; background: white; width: min(320px,100vw); }
+.pilot-team-dialog { inset: 0 0 0 auto; width: min(380px,100vw); padding-top: 44px; }
+.pilot-team-dialog > div { display: flex; height: 100%; }
+.pilot-team-dialog aside { width: calc(100% - 44px); }
+.pilot-navigation-dialog > aside { width: 100%; }
+.pilot-overlay-close { position: absolute; right: 0; top: 0; z-index: 20; width: 44px; height: 44px; display: flex; justify-content: center; align-items: center; background: white; }
+@media (max-width: 767px) {
+ .pilot-mobile-nav-bar { display: flex; padding: 8px 16px; border-bottom: 1px solid #d6deea; background: white; }
+ .pilot-mobile-nav-bar button { display: flex; gap: 8px; align-items: center; min-height: 44px; padding: 0 12px; border: 1px solid #cbd5e1; border-radius: 8px; }
+ .pilot-app-shell > header { min-height: 60px; height: auto; padding: 8px; gap: 4px; }
+ .pilot-app-shell > header > div:last-child { gap: 4px; }
+ .pilot-app-shell > header button { min-width: 32px; min-height: 32px; }
+}
+
+.pilot-stat-icon svg { color: inherit; }
+
+/* Kullanıcı isteği (2026-10-04): tıklanabilir tesis/grup adının bir bağlantı olduğu ilk
+ * bakışta belli olsun — her zaman mavi (primary), hover'da altı çizili. Önceki davranışta
+ * sadece hover'da renk değişiyordu ve siyah metinden ayırt edilemiyordu. */
+.pilot-name-cell { display: flex; align-items: center; gap: 6px; max-width: 280px; min-height: 0 !important; font-size: 12px; font-weight: 600; color: #155bd7; text-align: left; }
+.pilot-name-cell:hover { text-decoration: underline; }
+.pilot-desktop-table td .w-\[9rem\] { width: 90px; }
+.pilot-header-actions button[data-action="settings"] svg { color: white; }
+
+/* Restrained administrative surfaces for the Sports pilot. */
+.facility-ui-pilot { --pilot-border: #dfe3e8; --foreground-strong: 220 20% 18%; }
+.pilot-page-header { background: #fff; padding-block: 20px; border-bottom: 1px solid #dfe3e8; box-shadow: none; }
+.pilot-page-header .pilot-heading-icon { background: transparent; border: 0; border-radius: 0; width: 28px; height: 32px; color: #29374c; }
+.pilot-page-header .pilot-heading-icon svg { width: 24px; height: 24px; }
+.pilot-title { color: #202936; font-size: 22px; font-weight: 650; letter-spacing: -.5px; }
+.pilot-breadcrumb { color: #616c7a; margin-bottom: 12px; }
+.pilot-header-toolbar { margin-top: 18px; gap: 16px; justify-content: flex-start; }
+.pilot-header-actions { gap: 6px; }
+.pilot-header-actions button { border-color: #dfe3e8; border-radius: 6px; }
+.pilot-header-actions button[data-action="settings"] { background: #26364b; border-color: #26364b; }
+.pilot-header-actions button[data-action="settings"]:hover { background: #172538; }
+/* Kullanıcı isteği (2026-10-01): "spor salonu genel tasarım yapısını da template'e uygula,
+ * çalışan bir işlemi iptal etme" — template'in asıl görsel kimliği (ayrı renkli ikonlu stat
+ * kartları, koyu lacivert #0c1e3d tablo başlığı) buraya geri getirildi. Hiçbir davranış/işlev
+ * değişmedi, sadece görsel katman template'e sadık hale getirildi. */
+.pilot-content { background: #f5f6f8; }
+/* Kullanıcı isteği (2026-10-07, ikinci revizyon): "sağdaki kartlar daha renkli olabilir" —
+ * StatCard.tsx ile tutarlı 4'lü ılımlı palet (lacivert/yeşil/amber/mor) geri getirildi;
+ * rastgele "sultanşehir" rainbow'u (6+ parlak neon ton) değil, sabit ve öngörülebilir döngü. */
+.pilot-stat-card:nth-child(4n+1) .pilot-stat-icon { background: #eef3f8; color: #0f4c81; }
+.pilot-stat-card:nth-child(4n+2) .pilot-stat-icon { background: #f1f7e8; color: #5a8a2a; }
+.pilot-stat-card:nth-child(4n+3) .pilot-stat-icon { background: #fffbeb; color: #b45309; }
+.pilot-stat-card:nth-child(4n) .pilot-stat-icon { background: #f5f3ff; color: #6d28d9; }
+.facility-ui-pilot [data-table-root] { border: 1px solid #dfe3e8 !important; border-radius: 8px; box-shadow: 0 2px 3px rgb(25 35 50 / 3%) !important; overflow: hidden; }
+.facility-ui-pilot [data-table-root] > div:first-child { background: white; border-bottom: 1px solid #dfe3e8 !important; padding-block: 16px; }
+.facility-ui-pilot [data-table-root] > div:first-child > div > span:first-child { color: #202936; font-size: 14px; font-weight: 600; }
+.facility-ui-pilot table thead tr { background: #0c1e3d !important; }
+.facility-ui-pilot table th { background: #0c1e3d !important; color: #f1f5f9 !important; font-weight: 600; letter-spacing: .055em; text-transform: uppercase; border-bottom: 2px solid #2563eb; }
+.facility-ui-pilot table tbody tr:nth-child(even) { background: #fcfcfd; }
+.facility-ui-pilot table tbody tr:hover { background: #eff6ff; }
+.facility-ui-pilot table td { border-bottom-color: #e9ecf0; }
+.pilot-desktop-table td:nth-child(3) button .type-body-strong { color: #27374c; font-weight: 600; }
+.pilot-desktop-table td:nth-child(6) > span, .pilot-desktop-table td:nth-child(9) > span { color: #344054; font-weight: 500; }
+.pilot-settings-body { background: #f5f6f8; }
+.pilot-settings-body .rounded-card { border: 1px solid #dfe3e8; border-radius: 8px; box-shadow: none; }
+.pilot-dialog-header { background: white; border-bottom-color: #dfe3e8; }
+.pilot-dialog-header .pilot-heading-icon { background: #f2f4f7; border-color: #e7eaee; color: #344054; }
+.pilot-settings-footer { background: white; box-shadow: 0 -2px 8px rgb(25 35 50 / 3%); }
+@media (max-width: 767px) {
+ .pilot-title { font-size: 20px; }
+ .pilot-stat-grid { gap: 12px; }
+ .pilot-stat-value { font-size: 28px; }
+ .pilot-header-toolbar { gap: 12px; }
+}
+
+/* Reference layout: compact toolbar, five metrics and navy table heading. */
+.pilot-page-shell { background: #eef2f6; padding: 16px; gap: 12px; }
+.pilot-page-header { border: 1px solid #dbe3ef; border-radius: 7px; padding: 14px; background: white; }
+.pilot-overview-header .pilot-breadcrumb, .pilot-overview-header .pilot-header-row { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.pilot-overview-header .pilot-header-toolbar { margin-top: 0; }
+.pilot-facility-select { flex: 1 1 240px; max-width: 620px; margin-right: auto; }
+.pilot-facility-select label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.pilot-header-toolbar { gap: 8px; }
+.pilot-header-actions button[data-action="settings"] { background: #102447; border-color: #102447; }
+.pilot-header-actions button[data-action="settings"] svg { color: #ffd34e; }
+.pilot-content { padding: 0; background: transparent; }
+.pilot-stat-grid { grid-template-columns: repeat(5,minmax(0,1fr)); gap: 10px; border: 0; background: transparent; overflow: visible; }
+.pilot-stat-card { padding: 16px 12px; border: 1px solid #dbe3ef; border-radius: 6px; background: white; box-shadow: 0 1px 2px #10244704; }
+.pilot-stat-card > div { display: grid; grid-template-columns: 32px minmax(0,1fr); grid-template-rows: auto auto auto; column-gap: 10px; align-items: center; }
+.facility-ui-pilot .pilot-stat-card .pilot-stat-icon { display: flex; grid-column: 1; grid-row: 1 / 4; width: 32px; height: 32px; margin: 0; border-radius: 6px; }
+.pilot-stat-label { grid-column: 2; grid-row: 1; font-size: 11px; font-weight: 500; margin: 0 0 4px; color: #536681; }
+.pilot-stat-value { grid-column: 2; grid-row: 2; font-size: 23px; font-weight: 650; letter-spacing: -.5px; }
+.pilot-stat-note { grid-column: 2; grid-row: 3; font-size: 11px; margin-top: 4px; color: #64748b; }
+.pilot-overview label { font-size: 11px; color: #536681; }
+.pilot-overview input, .pilot-overview select { background: #f8fafc; }
+.pilot-overview [data-table-root] { border-radius: 6px; }
+.pilot-overview [data-table-root] > div:first-child { padding-block: 12px; }
+.facility-ui-pilot .pilot-enter-facility { color: #174bd4; background: #f0f5ff; padding-inline: 10px; font-size: 12px; white-space: nowrap; }
+.pilot-stat-card:nth-child(5) .pilot-stat-icon { color: #0f4c81; background: #eef3f8; }
+@container (max-width: 840px) { .pilot-stat-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+@container (max-width: 760px) { .pilot-stat-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .pilot-stat-card:last-child { grid-column: 1 / -1; } }
+@media (max-width: 767px) { .pilot-page-shell { padding: 10px; } .pilot-page-header { padding: 12px; } .pilot-facility-select { flex-basis: 100%; max-width: none; } .pilot-stat-card { padding: 12px 10px; } .pilot-stat-value { font-size: 22px; } }
+
+.pilot-header-toolbar > button:has(.lucide-plus) { background: white; border-color: #245cff; color: #245cff; }
+.pilot-view-toggle { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid #dbe3ef; border-radius: 8px; background: white; }
+.pilot-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; padding: 12px; }
+
+.pilot-facility-select { width: min(620px, 100%); }
+.pilot-facility-select input { background: #fff; border-color: #cbd5e1; border-radius: 6px; font-size: 12px; font-weight: 600; color: #1e293b; }
+.pilot-header-actions button[data-action="settings"] { background: #0c1e3d; border-color: #0c1e3d; }
+.pilot-header-actions button[data-action="settings"] svg { color: #fbbf24; transition: transform .3s; }
+.pilot-header-actions button[data-action="settings"]:hover svg { transform: rotate(90deg); }
+.pilot-filters label { font-size: 11px; font-weight: 600; color: #64748b; }
+/* Kullanıcı isteği (2026-10-01): "filtreleme ve selectboxlarda yükseklik çok az" — filtre
+ * satırındaki arama kutusu ve selectbox'lar 40px'ten, bu scope'un genel kontrol standardı olan
+ * 44px'e (--control-h, diğer tüm buton/combobox'larla aynı) çıkarıldı. */
+.pilot-filters :where(input, button[aria-haspopup]) { min-height: 44px; height: 44px; background: #f8fafc; border-color: #e2e8f0; border-radius: 6px; font-size: 12px; font-weight: 400; color: #334155; }
+.pilot-filters button[aria-haspopup][aria-expanded="true"] { background: #fff; border-color: #60a5fa; }
+.pilot-filter-reset { display: flex; align-items: flex-end; }
+@media (min-width: 1024px) {
+ .pilot-filters > .grid { grid-template-columns: repeat(5,minmax(0,1fr)) auto; }
+ .pilot-filters > .grid > :first-child { grid-column: 1 / -1; }
+}
+@media (min-width: 1440px) {
+ .pilot-filters > .grid { grid-template-columns: minmax(0,1.6fr) repeat(5,minmax(0,1fr)) auto; }
+ .pilot-filters > .grid > :first-child { grid-column: auto; }
+}
+.pilot-view-toggle { display: inline-flex; gap: 2px; padding: 2px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; }
+.pilot-view-toggle > button { min-height: 32px !important; height: 32px; border-radius: 5px; font-size: 12px; font-weight: 600; color: #64748b; }
+.pilot-view-toggle > button[aria-pressed="true"] { background: #fff; color: #0f4c81; box-shadow: 0 1px 2px rgb(15 23 42 / 8%); }
+.facility-ui-pilot table th svg[data-sort-icon] { width: 12px; height: 12px; color: #94a3b8; opacity: 1; }
+.facility-ui-pilot table th svg[data-sort-icon="active"], .facility-ui-pilot table th:hover svg[data-sort-icon] { color: #80c242; }
+.facility-ui-pilot table th:has(svg[data-sort-icon]):hover { color: #80c242 !important; }
+.pilot-desktop-table td { white-space: nowrap; }
+.pilot-chip { border-radius: 4px; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); font-size: 11.5px; line-height: 1.4; padding: 2px 8px; white-space: nowrap; }
+.pilot-gender { font-size: 11px; padding: 3px 8px; box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 20%, transparent); }
+.pilot-desktop-table td:nth-child(6), .pilot-desktop-table td:nth-child(7), .pilot-desktop-table td:nth-child(8), .pilot-desktop-table td:nth-child(9) { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.pilot-desktop-table td:nth-child(8) > span { color: #ea580c; }
+.pilot-overview-header .pilot-facility-select :where(button, input) { min-height: 44px; height: 44px; }
+
+.pilot-header-toolbar > button[aria-label] { width: 40px; min-width: 40px; height: 40px; min-height: 40px; padding: 0; justify-content: center; }
+.pilot-header-toolbar .pilot-facility-select { max-width: 620px; }
+.pilot-filters :where(input, button[aria-haspopup] span) { font-size: 12px; }
+.pilot-filters input::placeholder { font-size: 12px; font-weight: 400; color: #94a3b8; }
+.pilot-filters label { font-size: 11px; font-weight: 500; }
+.pilot-facility-select input { font-weight: 500; }
+.pilot-header-toolbar { gap: 10px; }
+.pilot-header-toolbar button[aria-label="Yönet"] { background: #eef3f8; border-color: #c7d7e5; color: #0f4c81; }
+.pilot-header-toolbar button[aria-label="Yeni Salon Ekle"] { background: #f1f7e8; border-color: #c9e0a8; color: #5a8a2a; }
+.pilot-header-toolbar button[aria-label="QR'ları Toplu Yazdır"] { background: #eef3f8; border-color: #c7d7e5; color: #0f4c81; }
+.pilot-header-toolbar button[aria-label="Arşiv"] { background: #fffbeb; border-color: #fde68a; color: #b45309; }
+.pilot-header-toolbar button[aria-label="Listeyi yenile"] { background: #f1f7e8; border-color: #c9e0a8; color: #5a8a2a; }
+.pilot-header-toolbar button[aria-label]:not([data-action="settings"]):hover { filter: brightness(.96); border-color: currentColor; }
+.pilot-header-toolbar button[aria-label] svg { color: inherit; }
+.facility-ui-pilot [role="checkbox"] { width: 16px; height: 16px; min-width: 16px; border-radius: 4px; border: 1.5px solid #94a3b8; background: #fff; }
+.facility-ui-pilot [role="checkbox"]:hover { border-color: #2563eb; }
+.facility-ui-pilot [role="checkbox"][data-state="checked"], .facility-ui-pilot [role="checkbox"][data-state="indeterminate"] { background: #2563eb; border-color: #2563eb; color: #fff; }
+.facility-ui-pilot [role="checkbox"] svg.lucide { width: 12px; height: 12px; stroke-width: 3; }
+.facility-ui-pilot table thead [role="checkbox"] { background: transparent; border-color: #cbd5e1; }
+.facility-ui-pilot table thead [role="checkbox"][data-state="checked"] { background: #2563eb; border-color: #fff; }
+.facility-ui-pilot table tbody tr:has([role="checkbox"][data-state="checked"]) { background: #eef4ff; }
+.pilot-overview [data-bulk-actions] { height: 36px; }
+.pilot-overview [data-bulk-actions] button { height: 100%; min-height: 0; font-size: 12px; font-weight: 600; }
+.pilot-overview [data-bulk-actions] button[aria-label="Seçimi temizle"] { width: 20px; height: 20px; padding: 0; border-radius: 999px; }
+.pilot-overview [data-bulk-actions] svg.lucide { width: 15px; height: 15px; }
+.pilot-desktop-table td:last-child :where(button[aria-label], a[aria-label]):not(.pilot-enter-facility) { width: 32px; height: 32px; min-height: 32px; border-radius: 6px; color: #475569; }
+.pilot-desktop-table td:last-child :where(button[aria-label]):not(.pilot-enter-facility):hover { background: #f1f5f9; color: #0f4c81; }
+.pilot-desktop-table td:last-child svg.lucide { width: 16px; height: 16px; }
+.facility-ui-pilot .pilot-enter-facility { height: 32px; min-height: 32px; border-radius: 6px; font-weight: 600; }
+.facility-ui-pilot .pilot-enter-facility:hover { background: #0f4c81; color: #fff; }
+.pilot-header-toolbar button[aria-label] svg.lucide { width: 18px; height: 18px; }
+
+/* .pilot-form-dialog kuralları 2026-10-04 styles/globals.css "DIALOG STANDARDI"na taşındı (tüm modüllerde geçerli). */
+.pilot-page-header .pilot-header-actions button[aria-haspopup] { min-height: 44px; height: 44px; padding-inline: 12px; justify-content: space-between; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 12px; font-weight: 400; color: #334155; }
+.pilot-page-header .pilot-header-actions button[aria-haspopup]:hover { background: #f8fafc; color: #334155; }
+.pilot-page-header .pilot-header-actions button[aria-haspopup][aria-expanded="true"] { background: #fff; border-color: #60a5fa; }
+:where(.pilot-page-header, .pilot-filters, .pilot-form-dialog) button[aria-haspopup] { box-shadow: none !important; }
+
+/* 2026-10-03: breadcrumb kaldırıldı; tüm sayfa başlıkları tek genel tonda, canlı koyu radial zemin + beyaz yazı.
+   Ton tema --primary'den türetilir; Ayarlar'daki tema değişince başlık zemini/butonlar birlikte uyar. */
+.pilot-breadcrumb { display: none; }
+.pilot-page-header {
+  --ph-accent: hsl(var(--primary));
+  --ph-deep: color-mix(in srgb, hsl(var(--primary)) 55%, #020617);
+  --ph-glow: color-mix(in srgb, hsl(var(--primary)) 70%, #7dd3fc);
+  background:
+    radial-gradient(120% 160% at 0% 0%, var(--ph-glow) 0%, transparent 55%),
+    radial-gradient(90% 140% at 100% 100%, var(--ph-deep) 0%, transparent 70%),
+    linear-gradient(120deg, var(--ph-accent) 0%, var(--ph-deep) 100%);
+  border: 0;
+  box-shadow: 0 8px 24px -12px var(--ph-deep);
+}
+.pilot-page-header .pilot-title { color: #fff; }
+.pilot-page-header .pilot-muted { color: rgb(255 255 255 / .82); }
+.pilot-page-header .pilot-heading-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgb(255 255 255 / .16); border: 1px solid rgb(255 255 255 / .28); color: #fff;
+  backdrop-filter: blur(6px);
+}
+.pilot-page-header .pilot-heading-icon svg { width: 20px; height: 20px; }
+/* Çerçeveli + ikon butonlar: cam efekti */
+.pilot-page-header button.border:not([aria-haspopup]):not([data-action="settings"]),
+.pilot-page-header .pilot-icon-button:not([data-action="settings"]) {
+  background: rgb(255 255 255 / .12); border-color: rgb(255 255 255 / .35); color: #fff;
+}
+.pilot-page-header .pilot-icon-button:not([data-action="settings"]) svg { color: #fff; }
+.pilot-page-header button.border:not([aria-haspopup]):not([data-action="settings"]):hover,
+.pilot-page-header .pilot-icon-button:not([data-action="settings"]):hover { background: rgb(255 255 255 / .22); color: #fff; }
+/* Ana butonlar + ayar: koyu zeminde beyaz dolu, tema renginde yazı */
+.pilot-page-header button[class*="bg-[hsl(var(--primary))]"],
+.pilot-page-header .pilot-header-actions button[data-action="settings"] {
+  background: #fff; border-color: #fff; color: var(--ph-accent);
+}
+.pilot-page-header .pilot-header-actions button[data-action="settings"] svg { color: var(--ph-accent); }
+.pilot-page-header button[class*="bg-[hsl(var(--primary))]"]:hover,
+.pilot-page-header .pilot-header-actions button[data-action="settings"]:hover { background: rgb(255 255 255 / .9); color: var(--ph-accent); }
+/* Seçim kutusu beyaz kalır, okunur */
+.pilot-page-header .pilot-header-actions button[aria-haspopup] { background: #fff; border-color: #fff; color: #0f172a; }
+.pilot-page-header .pilot-header-actions button[aria-haspopup]:hover { background: #fff; color: #0f172a; }
+.pilot-page-header .pilot-header-actions button[aria-haspopup] svg:first-child { color: var(--ph-accent); }

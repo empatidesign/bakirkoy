@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Bakırköy Belediyesi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      Kullanıcı isteği (2026-09-03, Android tablet offline anket): Google Fonts
+      stylesheet'i render-blocking bir <link rel="stylesheet"> idi. DNS/ağ
+      tamamen yokken (saha görevlisi şebekesiz bölgede) WebView bu isteği
+      çözemeyip React uygulamasının hiç mount olmasını bekletiyordu — kalıcı
+      beyaz ekran (dakikalarca, index.html'deki modül script'i hiç çalışmıyordu
+      çünkü tarayıcı önce <head> render-blocking kaynaklarını bitirmeye
+      çalışıyordu). media="print" hilesi: tarayıcı bu stylesheet'i hemen
+      render-blocking olmayan şekilde arka planda indirir, yüklenince
+      onload ile media="all" yapılır. Ağ yoksa istek arka planda başarısız
+      olur/timeout olur ama sayfa render'ını ASLA bloklamaz. noscript
+      fallback JS kapalıyken eski davranışı korur.
+    -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    </noscript>
+  </head>
+  <body>
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('nexora_theme') || 'system';
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var dark = stored === 'dark' || (stored === 'system' && prefersDark);
+          var root = document.documentElement;
+          root.classList.toggle('dark', dark);
+          root.style.colorScheme = dark ? 'dark' : 'light';
+        } catch (e) {}
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>

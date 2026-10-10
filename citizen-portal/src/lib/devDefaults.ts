@@ -1,0 +1,12 @@
+export const DEV_DEFAULT_TCKN = import.meta.env.VITE_DEV_TCKN ?? ''
+export const DEV_DEFAULT_BIRTHDATE = import.meta.env.VITE_DEV_BIRTHDATE ?? ''
+export const DEV_DEFAULT_PASSWORD = import.meta.env.VITE_DEV_PASSWORD ?? ''
+export const DEV_DEFAULT_PHONE = import.meta.env.VITE_DEV_PHONE ?? ''
+export const DEV_DEFAULT_EMAIL = import.meta.env.VITE_DEV_EMAIL ?? ''
+
+export const DEV_DEFAULT_COMPANY_NAME = import.meta.env.VITE_DEV_COMPANY_NAME ?? ''
+export const DEV_DEFAULT_COMPANY_TAX = import.meta.env.VITE_DEV_COMPANY_TAX ?? ''
+export const DEV_DEFAULT_COMPANY_PHONE = import.meta.env.VITE_DEV_COMPANY_PHONE ?? ''
+export const DEV_DEFAULT_COMPANY_EMAIL = import.meta.env.VITE_DEV_COMPANY_EMAIL ?? ''
+export const DEV_DEFAULT_COMPANY_ADDRESS = import.meta.env.VITE_DEV_COMPANY_ADDRESS ?? ''
+export const DEV_DEFAULT_COMPANY_PASSWORD = import.meta.env.VITE_DEV_COMPANY_PASSWORD ?? ''
