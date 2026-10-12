@@ -17,15 +17,8 @@ interface AuthLayoutProps {
 const COMPANY_PATHS = ['/firma/login', '/firma/register', '/firma/forgot-password', '/firma/login/otp', '/firma/login/change-initial']
 
 /**
- * Giriş ekranı kabuğu — tam ekran gündüz sahil sahnesi üzerinde yüzen
- * cam panel (glassmorphism).
- *
- * Kullanıcı isteği (2026-10-08): "tasarımı tamamen değiştir, halen
- * istediğim gibi olmadı" — önceki koyu/gece 50/50 split-screen (sol form /
- * sağ düz renkli hero bloğu) kaldırıldı; bu artık admin panelin yeni
- * tasarımıyla AYNI DİL'i (tam ekran illüstrasyon + cam kart) ama FARKLI
- * SAHNEYİ (sahil/vapur/fener vs. belediye binası/bulvar) kullanıyor, böylece
- * hem Sultangazi'den hem admin panelden görsel olarak ayrışıyor.
+ * Giriş ekranı kabuğu — Bakırköy sahilini çağrıştıran görsel üzerinde
+ * yüzen cam panel (glassmorphism).
  *
  * Alt sayfaların (OTP, Kayıt, Şifremi Unuttum) içeriği `.auth-sheet__body`
  * içine eskisi gibi akar; o alt bileşenlerdeki `.auth-login-form`,
@@ -54,7 +47,7 @@ export const AuthLayout = ({
 
   return (
     <div className={`auth-shell ${isFirma ? 'auth-shell--company' : ''}`}>
-      <img src="/bakirkoy-neon.jpg" alt="" aria-hidden="true" className="auth-shell__art" />
+      <img src="/bakirkoy-coast.jpg" alt="" aria-hidden="true" className="auth-shell__art" fetchPriority="high" />
       <div className={`auth-shell__veil ${isFirma ? 'auth-shell__veil--company' : ''}`} />
 
       <header className="auth-shell__topbar">

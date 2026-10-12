@@ -417,21 +417,22 @@
   overflow: hidden;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  background: #0B0B2A;
+  background: #DCEFFB;
 }
-/* Arka plan: izometrik neon Bakırköy şehir planı (Higgsfield, 2026-10-08) */
+/* Bakırköy / Ataköy sahilinden esinlenen gündüz manzarası. */
 .auth-shell__art {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover; object-position: center;
+  pointer-events: none;
 }
 .auth-shell__veil {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(8,8,30,.55) 0%, rgba(8,8,30,.05) 22%, rgba(8,8,30,.05) 72%, rgba(8,8,30,.55) 100%);
+  background: linear-gradient(180deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.08) 22%, rgba(255,255,255,.08) 72%, rgba(255,255,255,.65) 100%);
   pointer-events: none;
 }
 .auth-shell__veil--company {
-  background: linear-gradient(180deg, rgba(30,16,2,.35) 0%, rgba(30,16,2,.05) 22%, rgba(30,16,2,.05) 68%, rgba(30,16,2,.4) 100%);
+  background: linear-gradient(180deg, rgba(255,248,235,.55) 0%, rgba(255,248,235,.08) 22%, rgba(255,248,235,.08) 68%, rgba(255,248,235,.65) 100%);
 }
 
 .auth-shell__topbar {
@@ -442,7 +443,7 @@
 .auth-shell__brand { display: flex; align-items: center; gap: 10px; }
 .auth-shell__brand-logo { height: 32px; width: 32px; object-fit: contain; filter: drop-shadow(0 2px 6px rgb(0 0 0 / .18)); }
 .auth-shell__brand-logo-h { height: 36px; max-width: 200px; object-fit: contain; filter: drop-shadow(0 2px 6px rgb(0 0 0 / .18)); }
-.auth-shell__brand-name { font-size: 14px; font-weight: 700; letter-spacing: -.01em; color: #fff; text-shadow: 0 1px 6px rgb(0 0 0 / .6); }
+.auth-shell__brand-name { font-size: 14px; font-weight: 700; letter-spacing: -.01em; color: #15324D; text-shadow: 0 1px 2px rgb(255 255 255 / .6); }
 .auth-shell__clock {
   display: flex; align-items: center; gap: 6px;
   padding: 6px 12px; border-radius: 999px;
@@ -485,9 +486,9 @@
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   flex-wrap: wrap;
   padding: 14px 24px 18px;
-  font-size: 11px; color: rgb(255 255 255 / .8);
+  font-size: 11px; color: #3C5876;
 }
-.auth-shell--company .auth-shell__footer { color: rgb(255 255 255 / .8); }
+.auth-shell--company .auth-shell__footer { color: #3C5876; }
 .auth-shell__footer-chip {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 12px; border-radius: 999px;

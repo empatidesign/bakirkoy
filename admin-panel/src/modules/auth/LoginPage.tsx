@@ -9,7 +9,6 @@ import { useAuth } from '@/framework/auth/AuthContext'
 import authService from '@/services/auth.service'
 import { tokenStorage } from '@/services/tokenStorage'
 import { useSystemLogo, useSystemHorizontalLogo } from '@/framework/branding/useSystemLogo'
-import { BakirkoySkylineArt } from '@/components/brand/BakirkoySkylineArt'
 import { DEMO_OTP_CODE, DEMO_PASSWORD, DEMO_USERS, type DemoUser } from './demoUsers'
 
 interface FormErrors {
@@ -121,7 +120,7 @@ export const LoginPage = () => {
 
   return (
     <div className="login-scene">
-      <BakirkoySkylineArt className="login-scene__art" />
+      <img src="/bakirkoy-coast.jpg" alt="" aria-hidden="true" className="login-scene__art" fetchPriority="high" />
       <div className="login-scene__veil" />
 
       <header className="login-scene__topbar">
