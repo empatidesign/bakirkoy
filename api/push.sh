@@ -9,7 +9,7 @@ API_IMAGE="$REPO/sultangazi-api:$TAG"
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 
 echo "======================================================"
-echo "  Sultangazi Nexora — API Docker Push (yalnız API)"
+echo "  Bakırköy Nexora — API Docker Push (yalnız API)"
 echo "  Image   : $API_IMAGE"
 echo "  Platform: $PLATFORM"
 echo "  Context : $ROOT"

@@ -64,7 +64,8 @@ public class ParticipantSubmissionService(
         var district = participant.District?.Trim();
         var neighborhood = participant.Neighborhood?.Trim();
         if (!string.IsNullOrWhiteSpace(district) &&
-            !string.Equals(district, "Sultangazi", StringComparison.OrdinalIgnoreCase))
+            !string.Equals(district, "Bakırköy", StringComparison.OrdinalIgnoreCase) &&
+            !string.Equals(district, "Bakirkoy", StringComparison.OrdinalIgnoreCase))
             return string.IsNullOrWhiteSpace(neighborhood) ? null : $"{district} / {neighborhood}";
 
         return NormalizeNeighborhood(neighborhood) ?? ExtractNeighborhoodFromAddress(participant.Address);

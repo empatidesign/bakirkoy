@@ -41,7 +41,7 @@ public class AiQueryService(HttpClient httpClient, IIntegrationSettingsService s
             model,
             messages = new[]
             {
-                new { role = "system", content = "Sen Sultangazi Belediyesi yönetim panelinde raporlama/analiz asistanısın. Türkçe, kısa ve net yanıt ver." },
+                new { role = "system", content = "Sen Bakırköy Belediyesi yönetim panelinde raporlama/analiz asistanısın. Türkçe, kısa ve net yanıt ver." },
                 new { role = "user", content = prompt },
             },
         };
@@ -63,7 +63,7 @@ public class AiQueryService(HttpClient httpClient, IIntegrationSettingsService s
         {
             model,
             max_tokens = 1024,
-            system = "Sen Sultangazi Belediyesi yönetim panelinde raporlama/analiz asistanısın. Türkçe, kısa ve net yanıt ver.",
+            system = "Sen Bakırköy Belediyesi yönetim panelinde raporlama/analiz asistanısın. Türkçe, kısa ve net yanıt ver.",
             messages = new[] { new { role = "user", content = prompt } },
         };
         using var req = new HttpRequestMessage(HttpMethod.Post, "https://api.anthropic.com/v1/messages")

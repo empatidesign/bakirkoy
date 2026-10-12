@@ -61,7 +61,7 @@ export const MuhtarDashboardView = ({ data, loading, title }: Props) => {
       {/* Başlık ve Sağdaki Söz Balonu (1:1 Tasarım) */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
         <h2 className="text-lg font-black text-slate-800 tracking-tight">
-          {title || '50. Yıl Mahallesi — Mahallenizin Genel Görünümü'}
+          {title || 'Kartaltepe Mahallesi — Mahallenizin Genel Görünümü'}
         </h2>
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#eef3f8] border border-[#0f4c81]/15 text-[#0f4c81] text-xs font-semibold self-start md:self-auto shadow-2xs">
           <span className="text-[#0f4c81] font-bold">💡</span>

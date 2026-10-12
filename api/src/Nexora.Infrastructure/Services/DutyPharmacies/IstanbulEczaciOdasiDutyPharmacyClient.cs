@@ -26,7 +26,7 @@ public class IstanbulEczaciOdasiDutyPharmacyClient(
         };
         using var client = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(settings.CurrentValue.TimeoutSeconds) };
         client.DefaultRequestHeaders.UserAgent.ParseAdd(
-            "Mozilla/5.0 (compatible; NexoraDutyPharmacySync/1.0; +https://sultangazi.bel.tr)");
+            "Mozilla/5.0 (compatible; NexoraDutyPharmacySync/1.0; +https://www.bakirkoy.bel.tr)");
 
         var pageHtml = await client.GetStringAsync(BaseUrl, ct);
         var tokenMatch = HiddenTokenRegex.Match(pageHtml);

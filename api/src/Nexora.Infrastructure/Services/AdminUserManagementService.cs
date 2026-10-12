@@ -144,7 +144,7 @@ public class AdminUserManagementService(
 
         if (!hasManualPassword && isSms)
             await dispatcher.SendSmsAsync(user.Phone!,
-                $"Sayın {user.FullName}, Sultangazi Belediyesi yönetim paneli giriş şifreniz: {generatedPassword}. İlk girişte değiştirmeniz zorunludur.", ct);
+                $"Sayın {user.FullName}, Bakırköy Belediyesi yönetim paneli giriş şifreniz: {generatedPassword}. İlk girişte değiştirmeniz zorunludur.", ct);
         else if (!hasManualPassword && !isSms && !string.IsNullOrWhiteSpace(user.Email))
         {
             var email = EmailTemplates.AdminCredentials(user.FullName, user.Email, generatedPassword, "");
@@ -385,7 +385,7 @@ public class AdminUserManagementService(
         if (isSms)
         {
             var delivered = await dispatcher.SendSmsAsync(target,
-                $"Sayın {user.FullName}, Sultangazi Belediyesi yönetim paneli yeni giriş şifreniz: {generatedPassword}. İlk girişte değiştirmeniz zorunludur.", ct);
+                $"Sayın {user.FullName}, Bakırköy Belediyesi yönetim paneli yeni giriş şifreniz: {generatedPassword}. İlk girişte değiştirmeniz zorunludur.", ct);
             if (!delivered)
                 throw new ConflictException("Geçici şifre SMS ile gönderilemedi. Mevcut şifre korundu; lütfen daha sonra tekrar deneyin.", "CREDENTIAL_DELIVERY_FAILED");
         }

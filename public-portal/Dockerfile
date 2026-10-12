@@ -11,7 +11,7 @@ ARG VITE_API_URL=
 # Vault'taki PublicApi:ApiKeys (secret/nexora/api/production/main) ile aynı olmalı.
 ARG VITE_API_KEY=
 # Vatandaş portalının herkese açık üretim adresi (başvuru yönlendirmesi için).
-ARG VITE_CITIZEN_PORTAL_URL=https://sultansehir.sultangazi.bel.tr
+ARG VITE_CITIZEN_PORTAL_URL=
 ENV VITE_API_URL=${VITE_API_URL}
 ENV VITE_API_KEY=${VITE_API_KEY}
 ENV VITE_CITIZEN_PORTAL_URL=${VITE_CITIZEN_PORTAL_URL}

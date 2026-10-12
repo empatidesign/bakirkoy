@@ -404,7 +404,7 @@ services:
       # GEÇİCİ (yalnızca bu makine, VPN arkası): AFAD GIS (webgis.sultangazi.bel.tr) host'taki
       # socat relay'ine gider: socat TCP-LISTEN:18444,fork,reuseaddr TCP:webgis.sultangazi.bel.tr:443
       # Gerçek sunucu iç ağda olduğundan prod'da bu iki satır gerekmez.
-      AfadGis__BaseUrl: https://webgis.sultangazi.bel.tr:18444/BELNET
+      AfadGis__BaseUrl: https://webgis.bakirkoy.bel.tr/BELNET
       AfadGis__ResolveIp: "192.168.65.254"
     # GEÇİCİ (yalnızca bu makine, VPN arkası kurumsal API testi): host.docker.internal
     # üzerinden host'ta çalışan bir TCP relay'e (socat 18443 -> sultangazi.bel.tr:443)
@@ -457,7 +457,7 @@ services:
       Consul__EnableServiceDiscovery: "true"
       Consul__Address: http://nexora-consul:8500
       Consul__ServiceId: nexora-api-prod-2
-      AfadGis__BaseUrl: https://webgis.sultangazi.bel.tr:18444/BELNET
+      AfadGis__BaseUrl: https://webgis.bakirkoy.bel.tr/BELNET
       AfadGis__ResolveIp: "192.168.65.254"
       Consul__ServiceHost: nexora-api-2
       Consul__ServicePort: 34000
@@ -499,7 +499,7 @@ services:
       Consul__EnableServiceDiscovery: "true"
       Consul__Address: http://nexora-consul:8500
       Consul__ServiceId: nexora-api-prod-3
-      AfadGis__BaseUrl: https://webgis.sultangazi.bel.tr:18444/BELNET
+      AfadGis__BaseUrl: https://webgis.bakirkoy.bel.tr/BELNET
       AfadGis__ResolveIp: "192.168.65.254"
       Consul__ServiceHost: nexora-api-3
       Consul__ServicePort: 34000

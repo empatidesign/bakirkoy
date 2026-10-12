@@ -78,7 +78,7 @@ public sealed class ExcelService : IExcelService
         var ws = wb.Worksheets.Add("Başvurular");
         string[] headers = ["Ad Soyad", "TC Kimlik", "Telefon", "E-posta", "Adres", "Mahalle", "Gezi", "Gezi Tarihi", "Başvuru Tarihi", "Durum", "Belge", "Ödeme", "Otobüs", "Koltuk", "Refakatçi", "Misafir", "Başvuruyu Yapan"];
 
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — Gezi Başvuruları", reportTitle, headers);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — Gezi Başvuruları", reportTitle, headers);
 
         int row = 4;
         foreach (var a in items)
@@ -122,7 +122,7 @@ public sealed class ExcelService : IExcelService
         var ws = wb.Worksheets.Add("Yolcular");
         string[] headers = ["Ana Katılımcı", "Yolcu Ad Soyad", "TC Kimlik", "Cinsiyet", "Otobüs", "Koltuk", "Birincil"];
 
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — Yolcu Listesi", "Tüm Yolcular", headers);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — Yolcu Listesi", "Tüm Yolcular", headers);
 
         int row = 4;
         foreach (var a in items)
@@ -152,7 +152,7 @@ public sealed class ExcelService : IExcelService
         var ws = wb.Worksheets.Add("Otobüs Koltuk Planı");
         string[] headers = ["Otobüs", "Koltuk", "Ad Soyad", "TC Kimlik", "Cinsiyet", "Başvuru Sahibi"];
 
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — Koltuk Planı", "Otobüs & Koltuk Dağılımı", headers);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — Koltuk Planı", "Otobüs & Koltuk Dağılımı", headers);
 
         var groups = items
             .SelectMany(a => a.Passengers
@@ -184,7 +184,7 @@ public sealed class ExcelService : IExcelService
     {
         var ws = wb.Worksheets.Add("Özet");
 
-        ws.Cell(1, 1).Value = "Sultangazi Belediyesi";
+        ws.Cell(1, 1).Value = "Bakırköy Belediyesi";
         StyleTitleCell(ws.Cell(1, 1), 14, HeaderColor);
         ws.Range(1, 1, 1, 4).Merge();
 
@@ -231,7 +231,7 @@ public sealed class ExcelService : IExcelService
         string[] headers = ["Kod", "Katılımcı", "TC Kimlik", "Telefon", "E-posta", "Etkinlik", "Koltuk", "Başvuru Tarihi", "Cinsiyet", "Durum"];
 
         var subTitle = string.IsNullOrWhiteSpace(sessionInfo) ? reportTitle : $"{reportTitle}  |  {sessionInfo}";
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — Etkinlik Başvuruları", subTitle, headers, appendTimestamp: false);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — Etkinlik Başvuruları", subTitle, headers, appendTimestamp: false);
 
         int row = 4;
         foreach (var a in items)
@@ -261,7 +261,7 @@ public sealed class ExcelService : IExcelService
         var ws = wb.Worksheets.Add("Seans Bazlı");
         string[] headers = ["Seans", "Katılımcı", "TC Kimlik", "Koltuk", "Durum"];
 
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — Seans Bazlı Katılımcılar", "Seans Kırılımı", headers);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — Seans Bazlı Katılımcılar", "Seans Kırılımı", headers);
 
         var grouped = items
             .GroupBy(a => a.SessionLabel ?? "Seans Belirtilmemiş")
@@ -304,7 +304,7 @@ public sealed class ExcelService : IExcelService
         var ws = wb.Worksheets.Add("Durum Dağılımı");
         string[] headers = ["Katılımcı", "TC Kimlik", "Etkinlik", "Seans", "Durum Tarihi", "Durum"];
 
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — Başvuru Durum Listesi", "Tüm Başvurular", headers);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — Başvuru Durum Listesi", "Tüm Başvurular", headers);
 
         var sorted = items.OrderBy(a => a.Status).ThenBy(a => a.ParticipantName);
 
@@ -331,7 +331,7 @@ public sealed class ExcelService : IExcelService
     {
         var ws = wb.Worksheets.Add("Özet");
 
-        ws.Cell(1, 1).Value = "Sultangazi Belediyesi";
+        ws.Cell(1, 1).Value = "Bakırköy Belediyesi";
         StyleTitleCell(ws.Cell(1, 1), 14, HeaderColor);
         ws.Range(1, 1, 1, 4).Merge();
 
@@ -501,7 +501,7 @@ public sealed class ExcelService : IExcelService
         string[] headers = ["Ad Soyad", "TC Kimlik", "Otobüs", "Koltuk", "Durum"];
 
         var subTitle = $"{roster.TravelName}  |  {roster.StartDate:dd.MM.yyyy} – {roster.EndDate:dd.MM.yyyy}";
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — Gezi Yoklaması", subTitle, headers);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — Gezi Yoklaması", subTitle, headers);
 
         int row = 4;
         foreach (var item in roster.Items.OrderBy(x => x.BusName).ThenBy(x => x.SeatNumber).ThenBy(x => x.FullName))
@@ -525,7 +525,7 @@ public sealed class ExcelService : IExcelService
     {
         var ws = wb.Worksheets.Add("Özet");
 
-        ws.Cell(1, 1).Value = "Sultangazi Belediyesi";
+        ws.Cell(1, 1).Value = "Bakırköy Belediyesi";
         StyleTitleCell(ws.Cell(1, 1), 14, HeaderColor);
         ws.Range(1, 1, 1, 4).Merge();
 
@@ -560,7 +560,7 @@ public sealed class ExcelService : IExcelService
         var ws = wb.Worksheets.Add("Katılım Listesi");
         string[] headers = ["Ad Soyad", "TC Kimlik", "Etkinlik", "Seans", "Tarih", "Saat", "Tür", "Yöntem", "Walk-in"];
 
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — Etkinlik Katılım", eventName, headers);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — Etkinlik Katılım", eventName, headers);
 
         int row = 4;
         foreach (var a in items.OrderBy(x => x.At))
@@ -588,7 +588,7 @@ public sealed class ExcelService : IExcelService
     {
         var ws = wb.Worksheets.Add("Özet");
 
-        ws.Cell(1, 1).Value = "Sultangazi Belediyesi";
+        ws.Cell(1, 1).Value = "Bakırköy Belediyesi";
         StyleTitleCell(ws.Cell(1, 1), 14, HeaderColor);
         ws.Range(1, 1, 1, 4).Merge();
 
@@ -681,7 +681,7 @@ public sealed class ExcelService : IExcelService
             "Durum", "Başvuru Tarihi", "İnceleyen", "İnceleme Tarihi", "Notlar"
         ];
 
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — SEDA Eğitim Başvuruları", reportTitle, headers);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — SEDA Eğitim Başvuruları", reportTitle, headers);
 
         int row = 5;
         foreach (var (item, index) in items.Select((x, i) => (x, i)))
@@ -744,7 +744,7 @@ public sealed class ExcelService : IExcelService
         var ws = wb.Worksheets.Add("Sınavı Kazananlar");
         string[] headers = ["TCKN", "Ad Soyad", "Eğitim Yılı", "Katılımcı Eşleşmesi", "Katılımcı Adı", "Kayıt Tarihi"];
 
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — SEDA Eğitim Alanlar", reportTitle, headers);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — SEDA Eğitim Alanlar", reportTitle, headers);
 
         int row = 4;
         foreach (var (item, index) in items.Select((x, i) => (x, i)))
@@ -785,7 +785,7 @@ public sealed class ExcelService : IExcelService
     {
         var ws = wb.Worksheets.Add("Özet");
 
-        ws.Cell(1, 1).Value = "Sultangazi Belediyesi";
+        ws.Cell(1, 1).Value = "Bakırköy Belediyesi";
         StyleTitleCell(ws.Cell(1, 1), 14, HeaderColor);
         ws.Range(1, 1, 1, 3).Merge();
 
@@ -855,7 +855,7 @@ public sealed class ExcelService : IExcelService
         var ws = wb.Worksheets.Add("Başvurular");
         string[] headers = ["Sıra No", "Ad Soyad", "TC Kimlik", "Telefon", "E-posta", "Branş/Program", "Grup", "Başvuru Tarihi", "Durum", "Evrak Eksik"];
 
-        WriteSheetHeader(ws, $"Sultangazi Belediyesi — {moduleLabel} Başvuruları", reportTitle, headers);
+        WriteSheetHeader(ws, $"Bakırköy Belediyesi — {moduleLabel} Başvuruları", reportTitle, headers);
 
         int row = 4;
         foreach (var (a, index) in items.Select((x, i) => (x, i)))
@@ -887,7 +887,7 @@ public sealed class ExcelService : IExcelService
         var ws = wb.Worksheets.Add("Gruplara Göre");
         string[] headers = ["Sıra No", "Ad Soyad", "TC Kimlik", "Telefon", "Başvuru Tarihi", "Durum"];
 
-        WriteSheetHeader(ws, "Sultangazi Belediyesi — Gruplara Göre Başvurular", "Grup Kırılımı", headers);
+        WriteSheetHeader(ws, "Bakırköy Belediyesi — Gruplara Göre Başvurular", "Grup Kırılımı", headers);
 
         var grouped = items
             .GroupBy(a => a.GroupName ?? "Gruba Bağlı Değil")
@@ -933,7 +933,7 @@ public sealed class ExcelService : IExcelService
     {
         var ws = wb.Worksheets.Add("Özet");
 
-        ws.Cell(1, 1).Value = "Sultangazi Belediyesi";
+        ws.Cell(1, 1).Value = "Bakırköy Belediyesi";
         StyleTitleCell(ws.Cell(1, 1), 14, HeaderColor);
         ws.Range(1, 1, 1, 4).Merge();
 
@@ -992,7 +992,7 @@ public sealed class ExcelService : IExcelService
         var ws = wb.Worksheets.Add("Katılımcı Listesi");
         string[] headers = ["Sıra No", "Ad Soyad", "TC Kimlik", "Telefon", "Doğum Tarihi", "Durum", "Devamsızlık", "Kayıt Tarihi"];
 
-        WriteSheetHeader(ws, $"Sultangazi Belediyesi — {moduleLabel}", $"{groupName} — Katılımcı Listesi", headers);
+        WriteSheetHeader(ws, $"Bakırköy Belediyesi — {moduleLabel}", $"{groupName} — Katılımcı Listesi", headers);
 
         int row = 4;
         foreach (var (r, index) in items.OrderBy(x => x.Kind != "main").ThenBy(x => x.WaitlistOrder).ThenBy(x => x.FullName).Select((x, i) => (x, i)))

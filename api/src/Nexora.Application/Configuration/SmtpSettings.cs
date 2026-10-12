@@ -8,7 +8,7 @@ public class SmtpSettings
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string FromAddress { get; set; } = string.Empty;
-    public string FromName { get; set; } = "Sultangazi Belediyesi";
+    public string FromName { get; set; } = "Bakırköy Belediyesi";
     public int TimeoutSeconds { get; set; } = 30;
     public bool UseMockMode { get; set; } = true;
 

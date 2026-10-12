@@ -201,7 +201,7 @@ public class CitizenSubmissionService(
         var refId = MuhtarlikReference.NeighborhoodRefId(neighborhood);
         var slug = MuhtarlikReference.SlugifyForUsername(neighborhood);
         var email = string.IsNullOrWhiteSpace(req.Email)
-            ? $"muhtar.{slug}@sultangazi.bel.tr"
+            ? $"muhtar.{slug}@bakirkoy.bel.tr"
             : req.Email.Trim().ToLowerInvariant();
 
         var wasAlreadyAssigned = (await uow.ScopeNodes.GetByRefAsync("muhtarlik", refId, ct)) is not null;

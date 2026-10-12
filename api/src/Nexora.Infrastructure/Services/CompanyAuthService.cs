@@ -64,7 +64,7 @@ public class CompanyAuthService(
             request.Phone,
             request.Email,
             request.Address,
-            string.IsNullOrWhiteSpace(request.District) ? "Sultangazi" : request.District,
+            string.IsNullOrWhiteSpace(request.District) ? "Bakırköy" : request.District,
             passwordHash);
 
         if (request.Latitude.HasValue && request.Longitude.HasValue)

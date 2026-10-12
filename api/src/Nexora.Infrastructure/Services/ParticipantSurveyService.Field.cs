@@ -406,7 +406,7 @@ public partial class ParticipantSurveyService
             throw new ConflictException("Anket bağlantısı için portal adresi tanımlı değil. Lütfen sistem yöneticisine bildirin.", "PORTAL_URL_NOT_CONFIGURED");
 
         var link = $"{portalUrl}/anketler/{survey.Id}";
-        var message = $"Sultanşehir Belediyesi: \"{survey.Title}\" anketine katılmak için: {link}";
+        var message = $"Bakırköy Belediyesi: \"{survey.Title}\" anketine katılmak için: {link}";
 
         bool sent;
         try

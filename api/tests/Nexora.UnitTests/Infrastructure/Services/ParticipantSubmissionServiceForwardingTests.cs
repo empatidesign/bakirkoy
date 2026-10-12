@@ -45,7 +45,7 @@ public class ParticipantSubmissionServiceForwardingTests
             isMinor: false, passwordHash: "hash", email: null, phone: "5550000000",
             guardianPhone: null, guardianEmail: null, address: "Test Adres");
         _participant = participant;
-        participant.ApplyStructuredAddress("Habibler Mahallesi Sultangazi/İstanbul", "İstanbul", "Sultangazi", "Habibler Mahallesi", null);
+        participant.ApplyStructuredAddress("Kartaltepe Mahallesi Bakırköy/İstanbul", "İstanbul", "Bakırköy", "Kartaltepe Mahallesi", null);
         typeof(Nexora.Domain.Common.BaseEntity).GetProperty("Id")!.SetValue(participant, _participantId);
 
         _uow.SetupGet(x => x.CitizenSubmissions).Returns(_submissions.Object);
@@ -89,7 +89,7 @@ public class ParticipantSubmissionServiceForwardingTests
             CategoryId: "other",
             SubmissionType: "complaint",
             Priority: "normal",
-            Neighborhood: "Habibler Mahallesi",
+            Neighborhood: "Kartaltepe Mahallesi",
             Address: "Habibler Mah. 5. Sk.",
             Latitude: null,
             Longitude: null,
@@ -117,7 +117,7 @@ public class ParticipantSubmissionServiceForwardingTests
             CategoryId: "lighting",
             SubmissionType: "complaint",
             Priority: "high",
-            Neighborhood: "Cebeci Mahallesi",
+            Neighborhood: "Osmaniye Mahallesi",
             Address: "Cebeci Mah. 12. Sk.",
             Latitude: null,
             Longitude: null,
@@ -137,14 +137,14 @@ public class ParticipantSubmissionServiceForwardingTests
     public async Task CreateAsync_TekrarliBasvuruEngellenir()
     {
         var existing = CitizenSubmission.Create(
-            "Test Vatandaş", "5550000000", "12345678901", "Gazi Mahallesi", "Gazi Mah. Park",
+            "Test Vatandaş", "5550000000", "12345678901", "Şenlik Mahallesi", "Gazi Mah. Park",
             "park_garden", "request", "normal", "Park bakımsız", "Çocuk parkı bakımsız durumda.");
         _submissions.Setup(x => x.FindAsync(It.IsAny<System.Linq.Expressions.Expression<Func<CitizenSubmission, bool>>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync([existing]);
 
         var req = new CreateCitizenSubmissionMeRequest(
             "Park bakımsız", "Çocuk parkı bakımsız durumda.", "park_garden", "request", "normal",
-            "Gazi Mahallesi", "Gazi Mah. Park", null, null, false, null, null, "residence", "neighborhood");
+            "Şenlik Mahallesi", "Gazi Mah. Park", null, null, false, null, null, "residence", "neighborhood");
 
         await Assert.ThrowsAsync<Nexora.Application.Common.Exceptions.ConflictException>(
             () => _service.CreateAsync(req, CancellationToken.None));
@@ -170,7 +170,7 @@ public class ParticipantSubmissionServiceForwardingTests
             CategoryId: "noise",
             SubmissionType: "complaint",
             Priority: "normal",
-            Neighborhood: "Habibler Mahallesi",
+            Neighborhood: "Kartaltepe Mahallesi",
             Address: "Habibler Mah. 5. Sk.",
             Latitude: null,
             Longitude: null,
@@ -189,14 +189,14 @@ public class ParticipantSubmissionServiceForwardingTests
     }
     private static CreateCitizenSubmissionMeRequest ResidenceRequest() => new(
         "Sokak aydınlatması kontrolü", "Sokağımızdaki aydınlatmanın kontrol edilmesini istiyorum.",
-        "lighting", "request", "normal", "Cebeci Mahallesi", "İstemcinin gönderdiği farklı adres",
+        "lighting", "request", "normal", "Osmaniye Mahallesi", "İstemcinin gönderdiği farklı adres",
         null, null, false, null, null, "residence", "neighborhood");
 
     [Fact]
     public async Task Residence_uses_registered_address_instead_of_client_neighborhood()
     {
         var result = await _service.CreateAsync(ResidenceRequest(), CancellationToken.None);
-        Assert.Equal("Habibler Mahallesi", result.Neighborhood);
+        Assert.Equal("Kartaltepe Mahallesi", result.Neighborhood);
         Assert.Equal(_participant.Address, result.Address);
         Assert.Equal("new", result.Status);
         Assert.Null(result.UlakbelTrackingNo);

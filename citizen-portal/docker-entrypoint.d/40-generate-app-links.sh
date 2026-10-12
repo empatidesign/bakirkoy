@@ -19,7 +19,7 @@ case "$android_sha256_compact" in
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.sultansehir",
+      "package_name": "${ANDROID_PACKAGE_NAME:-tr.bel.bakirkoy.portal}",
       "sha256_cert_fingerprints": ["${ANDROID_APP_SHA256}"]
     }
   }

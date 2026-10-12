@@ -10,7 +10,7 @@ public class DutyPharmacy : BaseEntity
     public string? Directions { get; private set; }
     public string? Address { get; private set; }
     public string? Neighborhood { get; private set; }
-    public string District { get; private set; } = "Sultangazi";
+    public string District { get; private set; } = "Bakırköy";
     public double? Latitude { get; private set; }
     public double? Longitude { get; private set; }
     public string? DutyEndTime { get; private set; }

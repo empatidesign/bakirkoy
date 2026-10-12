@@ -21,7 +21,7 @@ export const AmbulanceAnalyticsHeatmap = () => {
   const HOSPITAL_DISTRIBUTION = [
     { name: 'Bakırköy Dr. Sadi Konuk EAH', share: 34, trips: 68 },
     { name: 'Başakşehir Çam ve Sakura Şehir Hastanesi', share: 24, trips: 48 },
-    { name: 'Haseki EAH Sultangazi / Fatih', share: 18, trips: 36 },
+    { name: 'Bakırköy Dr. Sadi Konuk EAH', share: 18, trips: 36 },
     { name: 'İstanbul Cerrahpaşa Tıp Fakültesi', share: 14, trips: 28 },
     { name: 'İstanbul FTR Eğitim Araştırma Hastanesi', share: 10, trips: 20 }
   ]

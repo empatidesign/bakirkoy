@@ -64,7 +64,7 @@ export interface CitizenAddress {
 
 export const isBakirkoyResident = (address?: CitizenAddress | null): boolean => {
   if (!address) return false
-  if (address.districtCode) return address.districtCode === BAKIRKOY_DISTRICT_CODE || address.districtCode === '2055'
+  if (address.districtCode) return address.districtCode === BAKIRKOY_DISTRICT_CODE
   const haystack = `${address.district ?? ''} ${address.fullAddress ?? ''}`.toLocaleLowerCase('tr-TR')
   return haystack.includes('bakırköy') || haystack.includes('bakirkoy')
 }

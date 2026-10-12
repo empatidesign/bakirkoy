@@ -115,7 +115,7 @@ public class Company : BaseEntity
             Phone = phone.Trim(),
             Email = Normalize(email)?.ToLowerInvariant(),
             Address = address.Trim(),
-            District = string.IsNullOrWhiteSpace(district) ? "Sultangazi" : district.Trim(),
+            District = string.IsNullOrWhiteSpace(district) ? "Bakırköy" : district.Trim(),
             PasswordHash = passwordHash,
             Status = CompanyStatus.Pending,
         };

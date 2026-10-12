@@ -359,7 +359,7 @@ public class ParticipantManagementService(
 
         if (isSms && !string.IsNullOrWhiteSpace(smsTarget))
             await dispatcher.SendSmsAsync(smsTarget,
-                $"Sayın {participant.FullName}, Sultangazi Belediyesi giriş şifreniz: {generatedPassword}. İlk girişte değiştirmeniz zorunludur.", ct);
+                $"Sayın {participant.FullName}, Bakırköy Belediyesi giriş şifreniz: {generatedPassword}. İlk girişte değiştirmeniz zorunludur.", ct);
         else if (!isSms && !string.IsNullOrWhiteSpace(emailTarget))
         {
             var email = EmailTemplates.ParticipantCredentials(participant.FullName, participant.Tckn, generatedPassword, "");
@@ -658,7 +658,7 @@ public class ParticipantManagementService(
         if (isSms)
         {
             var delivered = await dispatcher.SendSmsAsync(target,
-                $"Sayın {p.FullName}, Sultangazi Belediyesi yeni giriş şifreniz: {generatedPassword}. İlk girişte değiştirmeniz zorunludur.", ct);
+                $"Sayın {p.FullName}, Bakırköy Belediyesi yeni giriş şifreniz: {generatedPassword}. İlk girişte değiştirmeniz zorunludur.", ct);
             if (!delivered)
                 throw new ConflictException("Geçici şifre SMS ile gönderilemedi. Mevcut şifre korundu; lütfen daha sonra tekrar deneyin.", "CREDENTIAL_DELIVERY_FAILED");
         }

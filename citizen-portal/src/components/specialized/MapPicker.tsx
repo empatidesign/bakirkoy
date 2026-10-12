@@ -26,7 +26,7 @@ interface MapPickerProps {
   onAddressPick?: (address: string) => void
 }
 
-const DEFAULT_CENTER = { lat: 41.1075, lng: 28.8700 }
+const DEFAULT_CENTER = { lat: 40.9800, lng: 28.8720 }
 
 export const MapPicker = ({ value, onChange, readOnly, height = 320, className, onAddressPick }: MapPickerProps) => {
   const [query, setQuery] = useState('')
@@ -317,7 +317,7 @@ export const MapPicker = ({ value, onChange, readOnly, height = 320, className, 
             <div className="grid grid-cols-2 gap-2 pt-1">
               <div className="space-y-1">
                 <span className="type-label">Enlem (lat)</span>
-                <Input inputMode="decimal" placeholder="41.0750" value={lat ?? ''} onChange={(e) => setCoord('latitude', e.target.value)} />
+                <Input inputMode="decimal" placeholder="40.9800" value={lat ?? ''} onChange={(e) => setCoord('latitude', e.target.value)} />
               </div>
               <div className="space-y-1">
                 <span className="type-label">Boylam (lng)</span>

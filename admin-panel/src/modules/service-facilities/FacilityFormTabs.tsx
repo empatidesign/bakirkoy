@@ -40,7 +40,7 @@ const BasicTab = ({ form, setForm }: TabProps) => (
   <div className="space-y-[15px]">
     <FormSection title="Temel Bilgiler" icon={InfoIcon} variant="card">
       <Field label="Tesis Adı" required>
-        <Input placeholder="Örn. Cebeci Spor Kompleksi" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} />
+        <Input placeholder="Örn. Ataköy Spor Kompleksi" value={form.name} onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))} />
       </Field>
 
       <div className="grid grid-cols-2 gap-[15px]">

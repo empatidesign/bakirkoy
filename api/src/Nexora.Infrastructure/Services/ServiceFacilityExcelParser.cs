@@ -219,7 +219,8 @@ public static class ServiceFacilityExcelParser
         {
             var name = Text(ws, row, c.Name);
             var isNote = name.StartsWith("Zorunlu.", StringComparison.OrdinalIgnoreCase);
-            var isSample = name.Equals("Sultangazi Spor Kompleksi", StringComparison.OrdinalIgnoreCase);
+            var isSample = (name.Equals("Bakırköy Spor Kompleksi", StringComparison.OrdinalIgnoreCase)
+                || name.Equals("Sultangazi Spor Kompleksi", StringComparison.OrdinalIgnoreCase));
             if (!isNote && !isSample) break;
             row++;
         }

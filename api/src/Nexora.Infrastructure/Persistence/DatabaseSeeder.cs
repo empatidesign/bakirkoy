@@ -183,24 +183,21 @@ public static class DatabaseSeeder
         string Phone,
         string[] Services);
 
+    // Kaynak: www.bakirkoy.bel.tr/merkezler (bkz. scripts/seed-bakirkoy-service-facilities.mjs)
     private static readonly RealFacilitySeed[] RealServiceFacilities =
     [
-        new("Cevher Dudayev Hizmet Tesisi", "İsmetpaşa, Ordu Cd. No:315", "0212 459 40 21", ["SEDA", "Karate", "Kick Boks", "Kadın Spor Salonu (Egzersiz, Pilates, Step, Aerobik, Fitness)"]),
-        new("Uğur Mumcu Hizmet Tesisi", "50. Yıl Mah. Orhangazi Cd. 2133 Sk. No:87", "0212 459 40 05", ["SEDA", "Kütüphane", "Taekwondo"]),
-        new("Sezai Karakoç Gençlik Spor ve Engelliler Merkezi", "Esentepe Mah. 2369 Sok. No:1", "0212 459 40 00-01", ["SEDA", "Gençlik Merkezi", "Kütüphane", "Engelsiz Kütüphane", "Güreş", "Yüzme"]),
-        new("Nurettin Uzun Hizmet Tesisi", "Eski Habipler, Vefa Poyraz Cd. No:11", "0212 459 40 72", ["SEDA", "Kütüphane", "Wushu Kung-Fu"]),
-        new("Sultançiftliği Hizmet Tesisi", "Sultançiftliği Mah. 169 Sk. No:26", "0212 459 40 99", ["SEDA", "Kütüphane"]),
-        new("Aşık Veysel Kültür Merkezi", "Yunus Emre Mah. 1393 Sk. No:1A", "0212 459 47 00-01", ["SEDA", "Kütüphane", "Yüzme", "Fitness"]),
-        new("Prof. Dr. Necmettin Erbakan Bilim ve Kültür Merkezi", "50. Yıl Mah. Muhsin Yazıcıoğlu Cd. No:166", "0212 459 40 50", ["Planetaryum", "Atölyeler", "İnovasyon Merkezi", "Tematik Sergi", "Bilim Merkezi Kütüphanesi", "Okçuluk"]),
-        new("Özdemir Bayraktar Gençlik ve Kültür Merkezi", "Eski Habipler Mah. Orkideler Cd. No:28", "0212 459 40 16", ["Gençlik Merkezi", "Kütüphane", "Yüzme", "E-Spor", "Fitness"]),
-        new("Şehit Ferdi Yurduseven Gençlik Merkezi", "İsmetpaşa Mah. 45. Çıkmaz Sk. No:5", "0212 459 40 25", ["Gençlik Merkezi", "Kütüphane", "Çocuk Kütüphanesi", "Masa Tenisi"]),
-        new("Şehit Hikmet Baysal Gençlik Merkezi", "Sultançiftliği Mah. Gazi Mustafa Kemal Cd. No:31", "0212 459 34 51", ["Gençlik Merkezi", "Kütüphane", "Erkek Fitness Merkezi"]),
-        new("Su Mekan", "Gazi Mah. 1412 Sk. No:59/61", "444 23 32", ["Kütüphane"]),
-        new("Nata İstanbul (Vega AVM)", "Yunus Emre Mah. Lütfi Aykaç Blv. No:81", "444 23 32", ["Kütüphane"]),
-        new("Nene Hatun Kültür Merkezi", "İsmetpaşa Mah. Ordu Cd. No:266", "444 23 32", ["Kütüphane"]),
-        new("Cemil Meriç Hizmet Tesisi", "50. Yıl Mah. 2165 Sk. No:14", "444 23 32", ["Kütüphane"]),
-        new("Şehit Şerife Bacı Kültür Merkezi", "Uğur Mumcu Mah. I. Cd. No:7", "444 23 32", ["Kütüphane", "Kaşif Çocuk"]),
-
+        new("Yunus Emre Kültür Merkezi", "Ataköy 7-8-9-10. Kısım Mah. Yüzücü Talat Yüzmen Sk. No:5A", "0212 414 96 47", ["Tiyatro Salonu", "Tematik Sergi"]),
+        new("Tarık Akan Kültür Merkezi", "Osmaniye Mah. İsmail Erez Blv. No:8", "0212 414 97 00", ["Tiyatro Salonu"]),
+        new("İspirtohane Kültür Merkezi", "Ataköy 7-8-9-10. Kısım Mah. Uğur Mumcu Blv.", "0212 414 97 00", ["Konservatuvar / Müzik Eğitimi", "Atölyeler"]),
+        new("Cumhuriyet Evi", "Fişekhane Cd. No:1", "0212 414 97 00", ["Sosyal Etkinlik Alanı"]),
+        new("Emekliler Evi", "Osmaniye Mah. İsmail Erez Blv. No:8", "0212 414 97 00", ["Emekli Sosyal Etkinlik"]),
+        new("Yeşilköy Sanat Evi ve Kent Müzesi", "Yeşilköy Mah. Yeşilköy İskele Cd. No:34", "0212 414 97 00", ["Tematik Sergi", "Atölyeler"]),
+        new("Leyla Gencer Opera ve Sanat Merkezi", "Osmaniye Mah. İncirli Yolu Sk. No:20/1", "0212 414 96 47", ["Opera Salonu"]),
+        new("Bakırköy Belediyesi Atatürk Spor ve Yaşam Köyü", "Osmaniye Mah. Çolak İbrahim Sk. No:10", "0212 414 96 00", ["Yüzme", "Fitness", "Masa Tenisi"]),
+        new("Bakırköy Belediyesi Tıp Merkezi", "Sakızağacı Mah. Kennedy Cd. No:99-101", "0212 414 97 77", ["Aile Hekimliği", "Fizik Tedavi ve Rehabilitasyon"]),
+        new("İsmail Hakkı Tonguç Gençlik Merkezi", "Osmaniye Mah. İsmail Erez Blv. No:8", "0212 414 97 00", ["Gençlik Merkezi", "Kütüphane"]),
+        new("Bakırköy Rıfat Ilgaz İlçe Halk Kütüphanesi", "Kartaltepe Mah. Yavuklular Sk. No:2", "0212 542 40 81", ["Kütüphane", "Çocuk Kütüphanesi"]),
+        new("Bakırköy Doğan Hızlan Halk Kütüphanesi", "Cevizlik Mah. İstanbul Cd. No:38", "0212 414 97 00", ["Kütüphane"]),
     ];
 
     private static readonly Dictionary<string, (string Module, string? CatalogId)> RealServiceMappings = new(StringComparer.OrdinalIgnoreCase)

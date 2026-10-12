@@ -55,9 +55,9 @@ public static class EventEligibilityRules
 
         return residencyMode == ResidencyMode.OutsideOnly
             ? new EventEligibilityViolation("RESIDENCY_NOT_ELIGIBLE",
-                "Bu etkinlik yalnızca Sultangazi dışı sakinlere açıktır.", "Yalnızca Sultangazi dışı sakinleri")
+                "Bu etkinlik yalnızca Bakırköy dışı sakinlere açıktır.", "Yalnızca Bakırköy dışı sakinleri")
             : new EventEligibilityViolation("RESIDENCY_NOT_ELIGIBLE",
-                "Bu etkinlik yalnızca Sultangazi sakinlerine açıktır.", "Yalnızca Sultangazi sakinleri");
+                "Bu etkinlik yalnızca Bakırköy sakinlerine açıktır.", "Yalnızca Bakırköy sakinleri");
     }
 
     public static EventEligibilityViolation? CheckResidencyFull(

@@ -20,7 +20,7 @@ public class NviMockService(ILogger<NviMockService> logger) : INviService
         var scenario = IsScenarioTestTckn(tckn);
         var address = scenario && IsOutsideScenarioTckn(tckn)
             ? "Test Mah. Senaryo Cad. No:1 Kadıköy/İstanbul"
-            : "Cumhuriyet Mah. Atatürk Cad. No:12 D:5 Sultangazi/İstanbul";
+            : "Kartaltepe Mah. İstanbul Cad. No:12 D:5 Bakırköy/İstanbul";
         var parentGender = scenario ? ScenarioGender(tckn) : Gender.Male;
 
         var person = new NviPersonDto(
@@ -51,16 +51,16 @@ public class NviMockService(ILogger<NviMockService> logger) : INviService
         DateTime birthDate,
         CancellationToken ct = default)
     {
-        logger.LogInformation("NVI MOCK: sahte Sultangazi adresi dönülüyor (TC {Prefix})",
+        logger.LogInformation("NVI MOCK: sahte Bakırköy adresi dönülüyor (TC {Prefix})",
             tckn.Length >= 3 ? tckn[..3] : "***");
 
         var outside = IsScenarioTestTckn(tckn) && IsOutsideScenarioTckn(tckn);
         var address = new NviAddressDto(
             FullAddress: outside
                 ? "Test Mah. Senaryo Cad. No:1 Kadıköy/İstanbul"
-                : "Cumhuriyet Mah. Atatürk Cad. No:12 D:5 Sultangazi/İstanbul",
+                : "Kartaltepe Mah. İstanbul Cad. No:12 D:5 Bakırköy/İstanbul",
             City: "İstanbul",
-            District: outside ? "Kadıköy" : "Sultangazi",
+            District: outside ? "Kadıköy" : "Bakırköy",
             Neighborhood: outside ? "Test" : "Cumhuriyet",
             DistrictCode: outside ? "9999" : "2055");
 

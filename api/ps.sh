@@ -12,7 +12,7 @@ MOBIL_IMAGE="$REPO/sultangazi-mobil:$TAG"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 echo "======================================================"
-echo "  Sultangazi Nexora — Docker Push"
+echo "  Bakırköy Nexora — Docker Push"
 echo "  Tag    : $TAG"
 echo "  Platform: $PLATFORM"
 echo "======================================================"

@@ -253,7 +253,7 @@ export const MapPicker = ({ value, onChange, readOnly, height = 260, className, 
               <span className="hidden sm:inline">Konumum</span>
             </Button>
           </div>
-          {noResult && <p className="type-caption mt-1 text-warning">Sonuç bulunamadı. Mahalle ve sokak adını açık yazmayı deneyin (ör. Habibler Mahallesi 2716. Sokak) ya da koordinatları elle girin.</p>}
+          {noResult && <p className="type-caption mt-1 text-warning">Sonuç bulunamadı. Mahalle ve sokak adını açık yazmayı deneyin (ör. Kartaltepe Mahallesi Yavuklular Sokak) ya da koordinatları elle girin.</p>}
           {results.length > 0 && (
             <div className="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded-card border border-border bg-surface-0 shadow-pop">
               {results.map((r) => (
@@ -297,7 +297,7 @@ export const MapPicker = ({ value, onChange, readOnly, height = 260, className, 
             <span className="type-label">Enlem (lat)</span>
             <Input
               inputMode="decimal"
-              placeholder="41.0750"
+              placeholder="40.9800"
               value={latText}
               onChange={(e) => setCoord('latitude', e.target.value)}
             />

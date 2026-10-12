@@ -103,10 +103,10 @@ public class AfadGisIntegrationTests
     }
 
     [Theory]
-    [InlineData("GAZİ MAH.", "Gazi Mahallesi")]
-    [InlineData("gazi", "Gazi Mahallesi")]
-    [InlineData("50. YIL MAHALLESİ", "50. Yıl Mahallesi")]
-    [InlineData("İSMETPAŞA MH.", "İsmetpaşa Mahallesi")]
+    [InlineData("OSMANİYE MAH.", "Osmaniye Mahallesi")]
+    [InlineData("osmaniye", "Osmaniye Mahallesi")]
+    [InlineData("ŞENLİK MAHALLESİ", "Şenlik Mahallesi")]
+    [InlineData("YEŞİLKÖY MH.", "Yeşilköy Mahallesi")]
     [InlineData(null, "Belirtilmemiş")]
     public void ResolveNeighborhood_MapsToCanonical(string? raw, string expected)
         => Assert.Equal(expected, AfadGisSyncJob.ResolveNeighborhood(raw));
@@ -114,10 +114,10 @@ public class AfadGisIntegrationTests
     [Fact]
     public async Task Sync_UpsertsByObjectId_PassivatesMissing_PreservesManualFields()
     {
-        var existing = EmergencyArea.Create("Eski Ad", "Gazi Mahallesi", "Eski adres");
+        var existing = EmergencyArea.Create("Eski Ad", "Osmaniye Mahallesi", "Eski adres");
         existing.SetEmergencyPhone("112");
         existing.MarkSynced(AfadGisSyncJob.Source, 1, DateTime.UtcNow.AddDays(-1));
-        var gone = EmergencyArea.Create("Kaldırılan", "Gazi Mahallesi", "x");
+        var gone = EmergencyArea.Create("Kaldırılan", "Osmaniye Mahallesi", "x");
         gone.MarkSynced(AfadGisSyncJob.Source, 2, DateTime.UtcNow.AddDays(-1));
 
         var added = new List<EmergencyArea>();
@@ -132,7 +132,7 @@ public class AfadGisIntegrationTests
         var client = new Mock<IAfadGisClient>();
         client.Setup(c => c.FetchAllAsync(It.IsAny<CancellationToken>())).ReturnsAsync([
             new AfadGisAreaItem(1, "Yeni Ad", "gazi", null, 41.1, 28.87, 500, 2000),
-            new AfadGisAreaItem(3, null, "YAYLA MAH.", null, 41.11, 28.88, null, null),
+            new AfadGisAreaItem(3, null, "KARTALTEPE MAH.", null, 41.11, 28.88, null, null),
         ]);
 
         var job = new AfadGisSyncJob(uow.Object, client.Object, Mock.Of<IAuditService>(),
@@ -150,7 +150,7 @@ public class AfadGisIntegrationTests
         Assert.Equal(EmergencyAreaStatus.Passive, gone.Status);
         var created = Assert.Single(added);
         Assert.Equal("AFAD Toplanma Alanı #3", created.Name);
-        Assert.Equal("Yayla Mahallesi", created.Neighborhood);
+        Assert.Equal("Kartaltepe Mahallesi", created.Neighborhood);
         Assert.Equal(3, created.ExternalId);
         uow.Verify(u => u.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }

@@ -133,7 +133,7 @@ public class AfadGisSyncJob(
         var address = !string.IsNullOrWhiteSpace(item.Address)
             ? Fit(item.Address, 500)
             : isNew || string.IsNullOrWhiteSpace(area.Address) || area.Address is "-" or "Belirtilmemiş"
-                ? (neighborhood == "Belirtilmemiş" ? "Sultangazi / İstanbul" : Fit($"{neighborhood}, Sultangazi / İstanbul", 500))
+                ? (neighborhood == "Belirtilmemiş" ? "Bakırköy / İstanbul" : Fit($"{neighborhood}, Bakırköy / İstanbul", 500))
                 : area.Address;
         var hasPoint = item.Latitude.HasValue && item.Longitude.HasValue;
 

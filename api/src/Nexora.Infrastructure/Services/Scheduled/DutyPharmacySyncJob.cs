@@ -35,7 +35,7 @@ public class DutyPharmacySyncJob(
 
         if (items.Count == 0)
         {
-            logger.LogWarning("Nöbetçi eczane servisi Sultangazi için boş liste döndürdü — mevcut veri korunuyor.");
+            logger.LogWarning("Nöbetçi eczane servisi Bakırköy için boş liste döndürdü — mevcut veri korunuyor.");
             return;
         }
 

@@ -89,8 +89,8 @@ public class CompanyService(
         var passwordHash = Nexora.Infrastructure.Security.TimingSafeAuth.HashPassword(generatedPassword);
 
         var company = Company.Create(req.Name, req.TaxNumber, req.Phone, req.Email, req.Address,
-            req.District ?? "Sultangazi", passwordHash);
-        company.UpdateProfile(req.Name, req.Phone, req.Email, req.Address, req.District ?? "Sultangazi",
+            req.District ?? "Bakırköy", passwordHash);
+        company.UpdateProfile(req.Name, req.Phone, req.Email, req.Address, req.District ?? "Bakırköy",
             req.Logo, req.BannerImage, req.Description, req.Website, MapSocial(req.SocialMedia),
             req.Latitude, req.Longitude, bannerImageMobile: req.BannerImageMobile);
         company.RequireInitialPasswordChange();
@@ -579,8 +579,8 @@ public class CompanyService(
             var generatedPassword = GeneratePassword();
             var passwordHash = Nexora.Infrastructure.Security.TimingSafeAuth.HashPassword(generatedPassword);
 
-            var company = Company.Create(r.Name, r.TaxNumber, r.Phone, null, r.Address, "Sultangazi", passwordHash);
-            company.UpdateProfile(r.Name, r.Phone, null, r.Address, "Sultangazi",
+            var company = Company.Create(r.Name, r.TaxNumber, r.Phone, null, r.Address, "Bakırköy", passwordHash);
+            company.UpdateProfile(r.Name, r.Phone, null, r.Address, "Bakırköy",
                 null, null, null, null, null, null, null);
             company.RequireInitialPasswordChange();
             company.SetServiceCategory(category.Id);

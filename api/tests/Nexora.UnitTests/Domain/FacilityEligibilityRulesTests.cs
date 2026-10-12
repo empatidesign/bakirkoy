@@ -105,7 +105,7 @@ public class FacilityEligibilityRulesTests
     public void Sultangazi_only_ilce_disini_reddeder()
     {
         var outsider = BuildParticipant(tckn: "10103558834", district: "Esenler");
-        var resident = BuildParticipant(tckn: "10103558834", district: "Sultangazi");
+        var resident = BuildParticipant(tckn: "10103558834", district: "Bakırköy");
 
         var violation = FacilityEligibilityRules.CheckResidency("sultangazi_only", outsider, outsider.Tckn, "2055");
         Assert.NotNull(violation);
@@ -117,8 +117,8 @@ public class FacilityEligibilityRulesTests
     [Fact]
     public void Foreign_only_tc_vatandasini_reddeder()
     {
-        var tc = BuildParticipant(tckn: "10103558834", district: "Sultangazi");
-        var foreign = BuildParticipant(tckn: "99123456789", district: "Sultangazi");
+        var tc = BuildParticipant(tckn: "10103558834", district: "Bakırköy");
+        var foreign = BuildParticipant(tckn: "99123456789", district: "Bakırköy");
 
         Assert.NotNull(FacilityEligibilityRules.CheckResidency("foreign_only", tc, tc.Tckn, "2055"));
         Assert.Null(FacilityEligibilityRules.CheckResidency("foreign_only", foreign, foreign.Tckn, "2055"));
@@ -127,8 +127,8 @@ public class FacilityEligibilityRulesTests
     [Fact]
     public void Tc_only_yabanciyi_reddeder()
     {
-        var foreign = BuildParticipant(tckn: "99123456789", district: "Sultangazi");
-        var tc = BuildParticipant(tckn: "10103558834", district: "Sultangazi");
+        var foreign = BuildParticipant(tckn: "99123456789", district: "Bakırköy");
+        var tc = BuildParticipant(tckn: "10103558834", district: "Bakırköy");
 
         Assert.NotNull(FacilityEligibilityRules.CheckResidency("tc_only", foreign, foreign.Tckn, "2055"));
         Assert.Null(FacilityEligibilityRules.CheckResidency("tc_only", tc, tc.Tckn, "2055"));
@@ -137,9 +137,9 @@ public class FacilityEligibilityRulesTests
     [Fact]
     public void Sultangazi_tc_iki_ekseni_birlikte_arar()
     {
-        var ok = BuildParticipant(tckn: "10103558834", district: "Sultangazi");
+        var ok = BuildParticipant(tckn: "10103558834", district: "Bakırköy");
         var disariTc = BuildParticipant(tckn: "10103558834", district: "Esenler");
-        var icerideYabanci = BuildParticipant(tckn: "99123456789", district: "Sultangazi");
+        var icerideYabanci = BuildParticipant(tckn: "99123456789", district: "Bakırköy");
 
         Assert.Null(FacilityEligibilityRules.CheckResidency("sultangazi_tc", ok, ok.Tckn, "2055"));
         Assert.NotNull(FacilityEligibilityRules.CheckResidency("sultangazi_tc", disariTc, disariTc.Tckn, "2055"));
@@ -149,9 +149,9 @@ public class FacilityEligibilityRulesTests
     [Fact]
     public void Sultangazi_foreign_iki_ekseni_birlikte_arar()
     {
-        var ok = BuildParticipant(tckn: "99123456789", district: "Sultangazi");
+        var ok = BuildParticipant(tckn: "99123456789", district: "Bakırköy");
         var disaridaYabanci = BuildParticipant(tckn: "99123456789", district: "Esenler");
-        var icerideTc = BuildParticipant(tckn: "10103558834", district: "Sultangazi");
+        var icerideTc = BuildParticipant(tckn: "10103558834", district: "Bakırköy");
 
         Assert.Null(FacilityEligibilityRules.CheckResidency("sultangazi_foreign", ok, ok.Tckn, "2055"));
         Assert.NotNull(FacilityEligibilityRules.CheckResidency("sultangazi_foreign", disaridaYabanci, disaridaYabanci.Tckn, "2055"));
@@ -172,7 +172,7 @@ public class FacilityEligibilityRulesTests
     [InlineData("sultangazi_foreign", "99123456789")]
     public void Anlamsiz_ilce_kodu_tesis_ikamet_modlarinda_da_dusurulur(string mode, string tckn)
     {
-        var p = BuildParticipant(tckn, district: "Sultangazi", ilceKodu: "0");
+        var p = BuildParticipant(tckn, district: "Bakırköy", ilceKodu: "0");
 
         Assert.Null(FacilityEligibilityRules.CheckResidency(mode, p, p.Tckn, "2055"));
     }
@@ -194,7 +194,7 @@ public class FacilityEligibilityRulesTests
 
         participant.ApplyStructuredAddress(
             $"{district} mah.", "İstanbul", district, null,
-            ilceKodu ?? (district.Equals("Sultangazi", StringComparison.OrdinalIgnoreCase) ? "2055" : "1001"));
+            ilceKodu ?? (district.Equals("Bakırköy", StringComparison.OrdinalIgnoreCase) ? "2055" : "1001"));
 
         return participant;
     }

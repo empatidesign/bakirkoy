@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'tr.gov.sultangazi.portal',
-  appName: 'Sultangazi Belediyesi',
+  appId: 'tr.bel.bakirkoy.portal',
+  appName: 'Bakırköy Belediyesi',
   webDir: 'dist',
   plugins: {
     // Kullanıcı isteği (2026-10-07): uygulama içinde ekran görüntüsü/ekran kaydı

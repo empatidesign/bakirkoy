@@ -43,7 +43,7 @@ public class OtpService(IRedisService redis, IOptions<OtpSettings> otpOptions, I
         }
         else if (string.Equals(channel, "sms", StringComparison.OrdinalIgnoreCase))
         {
-            var smsMessage = $"Sultangazi Belediyesi doğrulama kodunuz: {code}. Kod {ValiditySeconds} saniye geçerlidir. Kodu kimseyle paylaşmayın.";
+            var smsMessage = $"Bakırköy Belediyesi doğrulama kodunuz: {code}. Kod {ValiditySeconds} saniye geçerlidir. Kodu kimseyle paylaşmayın.";
             delivered = await sms.SendOneAsync(target, smsMessage, ct);
         }
         else if (string.Equals(channel, "email", StringComparison.OrdinalIgnoreCase))

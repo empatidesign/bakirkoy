@@ -42,14 +42,14 @@ public class ResidencyPolicyTests
     [Fact]
     public void IlceKodu_yoksa_district_adindan_sultangazi_yakalanir()
     {
-        var p = MakeParticipant(district: "Sultangazi");
+        var p = MakeParticipant(district: "Bakırköy");
         Assert.True(ResidencyPolicy.IsSultangaziResident(p));
     }
 
     [Fact]
     public void IlceKodu_ve_district_yoksa_adres_metninden_yakalanir()
     {
-        var p = MakeParticipant(address: "Cebeci Mah. SULTANGAZI / Istanbul");
+        var p = MakeParticipant(address: "Kartaltepe Mah. BAKIRKÖY / Istanbul");
         Assert.True(ResidencyPolicy.IsSultangaziResident(p));
     }
 
@@ -63,7 +63,7 @@ public class ResidencyPolicyTests
     [Fact]
     public void IlceKodu_district_koduna_gore_onceliklidir()
     {
-        var p = MakeParticipant(ilceKodu: "9999", district: "Sultangazi");
+        var p = MakeParticipant(ilceKodu: "9999", district: "Bakırköy");
         Assert.False(ResidencyPolicy.IsSultangaziResident(p));
     }
 
@@ -74,7 +74,7 @@ public class ResidencyPolicyTests
     [InlineData(" ")]
     public void Anlamsiz_ilce_kodu_district_adina_dusurulur(string ilceKodu)
     {
-        var p = MakeParticipant(ilceKodu: ilceKodu, district: "Sultangazi");
+        var p = MakeParticipant(ilceKodu: ilceKodu, district: "Bakırköy");
         Assert.True(ResidencyPolicy.IsSultangaziResident(p));
     }
 
@@ -88,17 +88,17 @@ public class ResidencyPolicyTests
     [Fact]
     public void Anlamsiz_ilce_kodu_adres_metnine_kadar_dusurulur()
     {
-        var p = MakeParticipant(ilceKodu: "0", address: "Cebeci Mah. SULTANGAZI / Istanbul");
+        var p = MakeParticipant(ilceKodu: "0", address: "Kartaltepe Mah. BAKIRKÖY / Istanbul");
         Assert.True(ResidencyPolicy.IsSultangaziResident(p));
     }
 
     [Theory]
-    [InlineData("2055", true)]
+    [InlineData("2055", false)]
     [InlineData("9999", false)]
     [InlineData("1234", false)]
     public void Gecerli_ilce_kodu_hala_district_adini_ezer(string ilceKodu, bool expected)
     {
-        var p = MakeParticipant(ilceKodu: ilceKodu, district: "Sultangazi");
+        var p = MakeParticipant(ilceKodu: ilceKodu, district: "Bakırköy");
         Assert.Equal(expected, ResidencyPolicy.IsSultangaziResident(p));
     }
 

@@ -570,7 +570,7 @@ export const INITIAL_OPERATIONS: OperationTask[] = [
     pickupDistrict: 'Osmaniye Mah.',
     pickupAddress: 'Fildamı Sok. No:5 D:4',
     pickupFloorNotes: 'Zemin Kat',
-    destinationHospital: 'Haseki EAH Sultangazi Ek Bina',
+    destinationHospital: 'Bakırköy Dr. Sadi Konuk EAH',
     destinationDepartment: 'Göz Kliniği',
     appointmentTime: '08:30',
     scheduledPickupTime: '07:30',

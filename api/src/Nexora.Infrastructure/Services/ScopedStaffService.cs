@@ -167,7 +167,7 @@ public class ScopedStaffService(
 
         if (deliveryChannel == "Sms" && account.TemporaryPassword is not null && !string.IsNullOrWhiteSpace(account.User.Phone))
             await dispatcher.SendSmsAsync(account.User.Phone!,
-                $"Sultangazi Belediyesi yönetim paneli hesabınız oluşturuldu. Geçici şifreniz: {account.TemporaryPassword}. İlk girişte değiştirmeniz gerekir.", ct);
+                $"Bakırköy Belediyesi yönetim paneli hesabınız oluşturuldu. Geçici şifreniz: {account.TemporaryPassword}. İlk girişte değiştirmeniz gerekir.", ct);
         else if (deliveryChannel != "Sms" && account.TemporaryPassword is not null && !string.IsNullOrWhiteSpace(account.User.Email))
         {
             var email = EmailTemplates.ParticipantCredentials(account.User.FullName, account.User.Email, account.TemporaryPassword, "");

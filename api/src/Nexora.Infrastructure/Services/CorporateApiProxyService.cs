@@ -44,7 +44,7 @@ public sealed class CorporateApiProxyService : ICorporateApiProxyService
         _logger = logger;
 
         var section = configuration.GetSection("CorporateApi");
-        _baseUrl = section["BaseUrl"]?.TrimEnd('/') ?? "https://sultangazi.bel.tr/api/v2";
+        _baseUrl = section["BaseUrl"]?.TrimEnd('/') ?? "https://www.bakirkoy.bel.tr/api/v2";
         _clientId = section["ClientId"] ?? "";
         _clientSecret = section["ClientSecret"] ?? "";
     }

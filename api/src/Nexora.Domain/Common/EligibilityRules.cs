@@ -42,10 +42,10 @@ public static class EligibilityRules
 
         if (requireSultangazi && !isSultangazi)
             return new EligibilityViolation("RESIDENCY_NOT_ELIGIBLE",
-                "Bu hizmet yalnızca Sultangazi'de ikamet edenler içindir.");
+                "Bu hizmet yalnızca Bakırköy'de ikamet edenler içindir.");
         if (requireOutside && isSultangazi)
             return new EligibilityViolation("RESIDENCY_NOT_ELIGIBLE",
-                "Bu hizmet yalnızca Sultangazi dışında ikamet edenler içindir.");
+                "Bu hizmet yalnızca Bakırköy dışında ikamet edenler içindir.");
         if (citizenshipRequirement == true && !isForeign)
             return new EligibilityViolation("RESIDENCY_NOT_ELIGIBLE",
                 "Bu hizmet yalnızca yabancı uyruklu katılımcılar içindir.");
